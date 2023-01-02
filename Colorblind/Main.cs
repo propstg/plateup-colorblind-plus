@@ -1,6 +1,7 @@
 ﻿using Kitchen;
 using KitchenData;
 using KitchenLib;
+using KitchenLib.References;
 using KitchenLib.Utils;
 using System;
 using System.Collections;
@@ -16,27 +17,35 @@ namespace Colorblind {
         public const string MOD_ID = "blargle.ColorblindPlus";
         public const string MOD_NAME = "Colorblind+";
         public const string MOD_AUTHOR = "blargle";
-        public const string MOD_VERSION = "0.0.1";
+        public const string MOD_VERSION = "0.0.2";
+
+        private readonly Dictionary<int, string> SINGLE_ITEM_LABELS = new Dictionary<int, string>() {
+            { ItemReferences.Breadcrumbs, "Bcrumb" },
+            { ItemReferences.BroccoliChopped, "B" },
+            { ItemReferences.CarrotChopped, "C" },
+            { ItemReferences.CranberriesChopped, "Cr" },
+            { ItemReferences.CranberrySauce, "Csauce" },
+            { ItemReferences.OnionChopped, "O" },
+            { ItemReferences.Stuffing, "Stuff" },
+            { ItemReferences.StuffingRaw, "Stuff" },
+            { ItemReferences.TurkeySlice, "Tu" },
+        };
 
         private FieldInfo itemGroupView_colourblindLabel;
         private FieldInfo itemGroupView_componentLabels;
         private FieldInfo colourblindLabel_text;
         private FieldInfo colourblindLabel_item;
         private GameObject existingColourBlindChild;
-        private bool isRegistered;
 
         public ColorblindMod() : base(MOD_ID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, "1.1.2", Assembly.GetExecutingAssembly()) { }
 
-        protected override void Initialise() {
-            if (!isRegistered) {
-                buildReflectionCache();
-                printExistingInfo();
-                getExistingColourBlindChildToCloneFromPie();
-                setupColorBlindFeatureForItem(KitchenLib.References.ItemReferences.StirFryRaw);
-                setupColorBlindFeatureForItem(KitchenLib.References.ItemReferences.StirFryPlated);
-                setupColorBlindFeatureForItem(KitchenLib.References.ItemReferences.StirFryCooked);
-                isRegistered = true;
-            }
+        protected override void OnInitialise() {
+            buildReflectionCache();
+            printExistingInfo();
+            getExistingColourBlindChildToCloneFromPie();
+            addLabelsToStirFry();
+            addLabelsToTurkey();
+            addSingleItemLabels();
         }
 
         private void buildReflectionCache() {
@@ -46,6 +55,68 @@ namespace Colorblind {
             Type colourBlindLabelType = itemGroupViewInfo.GetNestedType("ColourBlindLabel", BindingFlags.NonPublic);
             colourblindLabel_text = colourBlindLabelType.GetField("Text");
             colourblindLabel_item = colourBlindLabelType.GetField("Item");
+        }
+
+        private void getExistingColourBlindChildToCloneFromPie() {
+            Item pie = GameData.Main.Get<Item>(ItemReferences.PieMeatCooked);
+            existingColourBlindChild = GameObjectUtils.GetChildObject(pie.Prefab, "Colour Blind");
+        }
+
+        private void addLabelsToStirFry() {
+            setupColorBlindFeatureForItem(ItemReferences.StirFryRaw, ColourBlindLabelCreator.createStirFryLabels());
+            setupColorBlindFeatureForItem(ItemReferences.StirFryPlated, ColourBlindLabelCreator.createStirFryLabels());
+            setupColorBlindFeatureForItem(ItemReferences.StirFryCooked, ColourBlindLabelCreator.createStirFryLabels());
+        }
+
+        private void addLabelsToTurkey() {
+            setupColorBlindFeatureForItem(ItemReferences.TurkeyPlated, ColourBlindLabelCreator.createTurkeyLabels());
+        }
+
+        private void addSingleItemLabels() {
+            foreach (KeyValuePair<int, string> entry in SINGLE_ITEM_LABELS) {
+                Item item = GameData.Main.Get<Item>(entry.Key);
+                GameObject clonedColourBlind = cloneColourBlindObjectAndAddToItem(item);
+                TextMeshPro textMeshProObject = getTextMeshProFromClonedObject(clonedColourBlind);
+                textMeshProObject.text = entry.Value;
+            }
+        }
+
+        private void setupColorBlindFeatureForItem(int itemId, IEnumerable labels) {
+            Item item = GameData.Main.Get<Item>(itemId);
+            ItemGroupView itemGroupView = item.Prefab.GetComponent<ItemGroupView>();
+            itemGroupView_componentLabels.SetValue(itemGroupView, labels);
+
+            if (doesColourBlindChildExist(item)) {
+                Debug.Log($"{itemId} already has a Colour Blind child.");
+                return;
+            }
+
+            GameObject clonedColourBlind = cloneColourBlindObjectAndAddToItem(item);
+            setColourBlindLabelObjectOnItemGroupView(itemGroupView, clonedColourBlind);
+        }
+
+        private bool doesColourBlindChildExist(Item item) {
+            return GameObjectUtils.GetChildObject(item.Prefab, "Colour Blind") != null;
+        }
+
+        private GameObject cloneColourBlindObjectAndAddToItem(Item item) {
+            GameObject clonedColourBlind = UnityEngine.Object.Instantiate(existingColourBlindChild);
+            clonedColourBlind.name = "Colour Blind";
+            clonedColourBlind.transform.SetParent(item.Prefab.transform);
+            clonedColourBlind.transform.localPosition = new Vector3(0, 0, 0);
+            return clonedColourBlind;
+        }
+
+        private void setColourBlindLabelObjectOnItemGroupView(ItemGroupView itemGroupView, GameObject clonedColourBlind) {
+            if (itemGroupView_colourblindLabel.GetValue(itemGroupView) == null) {
+                TextMeshPro textMeshProObject = getTextMeshProFromClonedObject(clonedColourBlind);
+                itemGroupView_colourblindLabel.SetValue(itemGroupView, textMeshProObject);
+            }
+        }
+
+        private TextMeshPro getTextMeshProFromClonedObject(GameObject clonedColourBlind) {
+            GameObject titleChild = GameObjectUtils.GetChildObject(clonedColourBlind, "Title");
+            return titleChild.GetComponent<TextMeshPro>();
         }
 
         [System.Diagnostics.Conditional("DEBUG")]
@@ -78,57 +149,28 @@ namespace Colorblind {
                 }
             }
         }
-
-        private void getExistingColourBlindChildToCloneFromPie() {
-            Item pie = GameData.Main.Get<Item>(KitchenLib.References.ItemReferences.PieMeatCooked);
-            existingColourBlindChild = GameObjectUtils.GetChildObject(pie.Prefab, "Colour Blind");
-        }
-
-        private void setupColorBlindFeatureForItem(int itemId) {
-            Item item = GameData.Main.Get<Item>(itemId);
-            if (doesColourBlindChildExist(item)) {
-                Debug.Log($"{itemId} already has a Colour Blind child.");
-                return;
-            }
-
-            GameObject clonedColourBlind = cloneColourBlindObjectAndAddToItem(item);
-            ItemGroupView itemGroupView = item.Prefab.GetComponent<ItemGroupView>();
-            setColourBlindLabelObjectOnItemGroupView(itemGroupView, clonedColourBlind);
-            itemGroupView_componentLabels.SetValue(itemGroupView, ItemGroupViewHackyWorkaround.createColourBlindLabels());
-        }
-
-        private bool doesColourBlindChildExist(Item item) {
-            return GameObjectUtils.GetChildObject(item.Prefab, "Colour Blind") != null;
-        }
-
-        private GameObject cloneColourBlindObjectAndAddToItem(Item item) {
-            GameObject clonedColourBlind = UnityEngine.Object.Instantiate(existingColourBlindChild);
-            clonedColourBlind.name = "Colour Blind";
-            clonedColourBlind.transform.SetParent(item.Prefab.transform);
-            clonedColourBlind.transform.localPosition = new Vector3(0, 0, 0);
-            return clonedColourBlind;
-        }
-
-        private void setColourBlindLabelObjectOnItemGroupView(ItemGroupView itemGroupView, GameObject clonedColourBlind) {
-            if (itemGroupView_colourblindLabel.GetValue(itemGroupView) == null) {
-                GameObject titleChild = GameObjectUtils.GetChildObject(clonedColourBlind, "Title");
-                TextMeshPro textMeshProObject = titleChild.GetComponent<TextMeshPro>();
-                itemGroupView_colourblindLabel.SetValue(itemGroupView, textMeshProObject);
-            }
-        }
     }
 
-    public class ItemGroupViewHackyWorkaround : ItemGroupView {
+    public class ColourBlindLabelCreator : ItemGroupView {
 
-        public static object createColourBlindLabels() {
+        public static IEnumerable createStirFryLabels() {
             return new List<ColourBlindLabel> {
-                new ColourBlindLabel { Item = GameData.Main.Get<Item>(KitchenLib.References.ItemReferences.BroccoliChopped), Text = "B" },
-                new ColourBlindLabel { Item = GameData.Main.Get<Item>(KitchenLib.References.ItemReferences.BroccoliChoppedContainerCooked), Text = "B" },
-                new ColourBlindLabel { Item = GameData.Main.Get<Item>(KitchenLib.References.ItemReferences.CarrotChopped), Text = "C" },
-                new ColourBlindLabel { Item = GameData.Main.Get<Item>(KitchenLib.References.ItemReferences.CarrotChoppedContainerCooked), Text = "C" },
-                new ColourBlindLabel { Item = GameData.Main.Get<Item>(KitchenLib.References.ItemReferences.MeatChopped), Text = "Me" },
-                new ColourBlindLabel { Item = GameData.Main.Get<Item>(KitchenLib.References.ItemReferences.MeatChoppedContainerCooked), Text = "Me" },
-                new ColourBlindLabel { Item = GameData.Main.Get<Item>(KitchenLib.References.ItemReferences.BroccoliServing), Text = "-b" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.BroccoliChopped), Text = "B" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.BroccoliChoppedContainerCooked), Text = "B" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.CarrotChopped), Text = "C" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.CarrotChoppedContainerCooked), Text = "C" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.MeatChopped), Text = "Me" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.MeatChoppedContainerCooked), Text = "Me" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.BroccoliServing), Text = "-b" },
+            };
+        }
+
+        public static IEnumerable createTurkeyLabels() {
+            return new List<ColourBlindLabel> {
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.TurkeySlice), Text = "Tu" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.CranberrySauce), Text = "C" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.TurkeyGravy), Text = "G" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.Stuffing), Text = "S" },
             };
         }
     }
