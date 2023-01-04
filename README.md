@@ -1,10 +1,14 @@
 # Colorblind+
 
-Adds colorblind labels to Stir Fry (and potentially more).
+Adds colorblind labels to:
+* Stir Fry, using the familiar B/C/Me labels. Sides of broccoli are displayed as "-b", to differentiate.
+* Turkey + sides
+* Chopped onion, broccoli, and carrots (when standalone)
+
+Additionally, reorders the ice cream bowl labels (CSV) to be consistent with the appliance (SCV).
 
 ![preview](./img/preview.png)
 
-For Stir Fry, uses the familiar B/C/Me labels for the main dish. The side of broccoli will be displayed as "-b".
 
 Note: The title screen will not reflect the new labels.
 

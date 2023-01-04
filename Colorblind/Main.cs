@@ -17,7 +17,7 @@ namespace Colorblind {
         public const string MOD_ID = "blargle.ColorblindPlus";
         public const string MOD_NAME = "Colorblind+";
         public const string MOD_AUTHOR = "blargle";
-        public const string MOD_VERSION = "0.0.2";
+        public const string MOD_VERSION = "0.0.3";
 
         private readonly Dictionary<int, string> SINGLE_ITEM_LABELS = new Dictionary<int, string>() {
             { ItemReferences.Breadcrumbs, "Bcrumb" },
@@ -45,6 +45,7 @@ namespace Colorblind {
             getExistingColourBlindChildToCloneFromPie();
             addLabelsToStirFry();
             addLabelsToTurkey();
+            makeIceCreamOrderingConsistentWithAppliance();
             addSingleItemLabels();
         }
 
@@ -70,6 +71,10 @@ namespace Colorblind {
 
         private void addLabelsToTurkey() {
             setupColorBlindFeatureForItem(ItemReferences.TurkeyPlated, ColourBlindLabelCreator.createTurkeyLabels());
+        }
+
+        private void makeIceCreamOrderingConsistentWithAppliance() {
+            setupColorBlindFeatureForItem(ItemReferences.IceCreamServing, ColourBlindLabelCreator.createConsistentIceCreamLabels());
         }
 
         private void addSingleItemLabels() {
@@ -171,6 +176,14 @@ namespace Colorblind {
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.CranberrySauce), Text = "C" },
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.TurkeyGravy), Text = "G" },
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.Stuffing), Text = "S" },
+            };
+        }
+
+        public static IEnumerable createConsistentIceCreamLabels() {
+            return new List<ColourBlindLabel> {
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.IceCreamStrawberry), Text = "S" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.IceCreamChocolate), Text = "C" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.IceCreamVanilla), Text = "V" },
             };
         }
     }
