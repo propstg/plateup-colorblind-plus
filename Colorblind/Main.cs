@@ -24,11 +24,13 @@ namespace Colorblind {
             { ItemReferences.Breadcrumbs, "Bcrumb" },
             { ItemReferences.BroccoliChopped, "B" },
             { ItemReferences.CarrotChopped, "C" },
+            { ItemReferences.CheeseGrated, "Ch" },
             { ItemReferences.CranberriesChopped, "Cr" },
             { ItemReferences.CranberrySauce, "Csauce" },
             { ItemReferences.OnionChopped, "O" },
             { ItemReferences.Stuffing, "Stuff" },
             { ItemReferences.StuffingRaw, "Stuff" },
+            { ItemReferences.TomatoChopped, "T" },
             { ItemReferences.TurkeySlice, "Tu" },
         };
 
@@ -48,6 +50,7 @@ namespace Colorblind {
             getExistingColourBlindChildToCloneFromPie();
             addLabelsToStirFry();
             addLabelsToTurkey();
+            addLabelsToBurgers();
             makeIceCreamOrderingConsistentWithAppliance();
             addSingleItemLabels();
         }
@@ -84,6 +87,16 @@ namespace Colorblind {
             }
 
             setupColorBlindFeatureForItem(ItemReferences.TurkeyPlated, ColourBlindLabelCreator.createTurkeyLabels());
+        }
+
+        private void addLabelsToBurgers() {
+            if (!ColorblindPreferences.isOn(ColorblindPreferences.ShowBurgerLabels)) {
+                Debug.Log($"{MOD_ID}] Burgers are off. Not adding labels.");
+                return;
+            }
+
+            setupColorBlindFeatureForItem(ItemReferences.BurgerUnplated, ColourBlindLabelCreator.createBurgerLabels());
+            setupColorBlindFeatureForItem(ItemReferences.BurgerPlated, ColourBlindLabelCreator.createBurgerLabels());
         }
 
         private void makeIceCreamOrderingConsistentWithAppliance() {
@@ -133,6 +146,7 @@ namespace Colorblind {
         private void setColourBlindLabelObjectOnItemGroupView(ItemGroupView itemGroupView, GameObject clonedColourBlind) {
             if (itemGroupView_colourblindLabel.GetValue(itemGroupView) == null) {
                 TextMeshPro textMeshProObject = getTextMeshProFromClonedObject(clonedColourBlind);
+                textMeshProObject.text = "";
                 itemGroupView_colourblindLabel.SetValue(itemGroupView, textMeshProObject);
             }
         }
@@ -219,6 +233,14 @@ namespace Colorblind {
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.IceCreamStrawberry), Text = "S" },
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.IceCreamChocolate), Text = "C" },
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.IceCreamVanilla), Text = "V" },
+            };
+        }
+
+        public static IEnumerable createBurgerLabels() {
+            return new List<ColourBlindLabel> {
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.CheeseGrated), Text = "Ch" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.OnionChopped), Text = "O" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.TomatoChopped), Text = "T" },
             };
         }
     }
