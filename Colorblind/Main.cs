@@ -1,6 +1,7 @@
 ﻿using Kitchen;
 using KitchenData;
 using KitchenLib;
+using KitchenLib.Event;
 using KitchenLib.References;
 using KitchenLib.Utils;
 using System;
@@ -17,7 +18,7 @@ namespace Colorblind {
         public const string MOD_ID = "blargle.ColorblindPlus";
         public const string MOD_NAME = "Colorblind+";
         public const string MOD_AUTHOR = "blargle";
-        public const string MOD_VERSION = "0.0.3";
+        public const string MOD_VERSION = "0.0.4";
 
         private readonly Dictionary<int, string> SINGLE_ITEM_LABELS = new Dictionary<int, string>() {
             { ItemReferences.Breadcrumbs, "Bcrumb" },
@@ -40,6 +41,8 @@ namespace Colorblind {
         public ColorblindMod() : base(MOD_ID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, "1.1.2", Assembly.GetExecutingAssembly()) { }
 
         protected override void OnInitialise() {
+            ColorblindPreferences.registerPreferences();
+            initMenus();
             buildReflectionCache();
             printExistingInfo();
             getExistingColourBlindChildToCloneFromPie();
@@ -64,12 +67,22 @@ namespace Colorblind {
         }
 
         private void addLabelsToStirFry() {
+            if (!ColorblindPreferences.isOn(ColorblindPreferences.ShowStirFryLabels)) {
+                Debug.Log($"{MOD_ID}] Stir fry is off. Not adding labels.");
+                return;
+            }
+
             setupColorBlindFeatureForItem(ItemReferences.StirFryRaw, ColourBlindLabelCreator.createStirFryLabels());
             setupColorBlindFeatureForItem(ItemReferences.StirFryPlated, ColourBlindLabelCreator.createStirFryLabels());
             setupColorBlindFeatureForItem(ItemReferences.StirFryCooked, ColourBlindLabelCreator.createStirFryLabels());
         }
 
         private void addLabelsToTurkey() {
+            if (!ColorblindPreferences.isOn(ColorblindPreferences.ShowTurkeyLabels)) {
+                Debug.Log($"{MOD_ID}] Turkey is off. Not adding labels.");
+                return;
+            }
+
             setupColorBlindFeatureForItem(ItemReferences.TurkeyPlated, ColourBlindLabelCreator.createTurkeyLabels());
         }
 
@@ -78,6 +91,11 @@ namespace Colorblind {
         }
 
         private void addSingleItemLabels() {
+            if (!ColorblindPreferences.isOn(ColorblindPreferences.ShowStandaloneLabels)) {
+                Debug.Log($"{MOD_ID}] Standalone is off. Not adding labels.");
+                return;
+            }
+
             foreach (KeyValuePair<int, string> entry in SINGLE_ITEM_LABELS) {
                 Item item = GameData.Main.Get<Item>(entry.Key);
                 GameObject clonedColourBlind = cloneColourBlindObjectAndAddToItem(item);
@@ -153,6 +171,23 @@ namespace Colorblind {
                     Debug.Log($"Found color blind label '{colourblindLabel_text.GetValue(label)}' for item {((Item)colourblindLabel_item.GetValue(label)).ID}");
                 }
             }
+        }
+
+        private void initMenus() {
+            Events.PreferenceMenu_MainMenu_SetupEvent += (s, args) => {
+                Type type = args.instance.GetType().GetGenericArguments()[0];
+                args.mInfo.Invoke(args.instance, new object[] { MOD_NAME, typeof(ColorblindMenu<>).MakeGenericType(type), false });
+            };
+            Events.PreferenceMenu_MainMenu_CreateSubmenusEvent += (s, args) => {
+                args.Menus.Add(typeof(ColorblindMenu<MainMenuAction>), new ColorblindMenu<MainMenuAction>(args.Container, args.Module_list));
+            };
+            Events.PreferenceMenu_PauseMenu_SetupEvent += (s, args) => {
+                Type type = args.instance.GetType().GetGenericArguments()[0];
+                args.mInfo.Invoke(args.instance, new object[] { MOD_NAME, typeof(ColorblindMenu<>).MakeGenericType(type), false });
+            };
+            Events.PreferenceMenu_PauseMenu_CreateSubmenusEvent += (s, args) => {
+                args.Menus.Add(typeof(ColorblindMenu<PauseMenuAction>), new ColorblindMenu<PauseMenuAction>(args.Container, args.Module_list));
+            };
         }
     }
 
