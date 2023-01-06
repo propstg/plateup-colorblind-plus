@@ -27,6 +27,7 @@ namespace Colorblind {
             { ItemReferences.CheeseGrated, "Ch" },
             { ItemReferences.CranberriesChopped, "Cr" },
             { ItemReferences.CranberrySauce, "Csauce" },
+            { ItemReferences.MushroomChopped, "Mu" },
             { ItemReferences.OnionChopped, "O" },
             { ItemReferences.Stuffing, "Stuff" },
             { ItemReferences.StuffingRaw, "Stuff" },
@@ -51,6 +52,7 @@ namespace Colorblind {
             addLabelsToStirFry();
             addLabelsToTurkey();
             addLabelsToBurgers();
+            addLabelsToPizza();
             makeIceCreamOrderingConsistentWithAppliance();
             addSingleItemLabels();
         }
@@ -97,6 +99,19 @@ namespace Colorblind {
 
             setupColorBlindFeatureForItem(ItemReferences.BurgerUnplated, ColourBlindLabelCreator.createBurgerLabels());
             setupColorBlindFeatureForItem(ItemReferences.BurgerPlated, ColourBlindLabelCreator.createBurgerLabels());
+        }
+
+        private void addLabelsToPizza() {
+            if (!ColorblindPreferences.isOn(ColorblindPreferences.ShowPizzaLabels)) {
+                Debug.Log($"{MOD_ID}] Pizzas are off. Not adding labels.");
+                return;
+            }
+
+            var pizzaLabels = ColourBlindLabelCreator.createPizzaLabels();
+            setupColorBlindFeatureForItem(ItemReferences.PizzaRaw, pizzaLabels);
+            setupColorBlindFeatureForItem(ItemReferences.PizzaCooked, pizzaLabels);
+            setupColorBlindFeatureForItem(ItemReferences.PizzaPlated, pizzaLabels);
+            setupColorBlindFeatureForItem(ItemReferences.PizzaSlice, pizzaLabels);
         }
 
         private void makeIceCreamOrderingConsistentWithAppliance() {
@@ -241,6 +256,17 @@ namespace Colorblind {
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.CheeseGrated), Text = "Ch" },
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.OnionChopped), Text = "O" },
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.TomatoChopped), Text = "T" },
+            };
+        }
+
+        public static IEnumerable createPizzaLabels() {
+            return new List<ColourBlindLabel> {
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.CheeseGrated), Text = "Ch" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.CheeseWrappedCooked), Text = "Ch" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.MushroomChopped), Text = "Mu" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.MushroomCookedWrapped), Text = "Mu" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.OnionChopped), Text = "O" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.OnionCookedWrapped), Text = "O" },
             };
         }
     }

@@ -19,6 +19,7 @@ namespace Colorblind {
             addBool("Stir Fry", ColorblindPreferences.ShowStirFryLabels);
             addBool("Turkey", ColorblindPreferences.ShowTurkeyLabels);
             addBool("Burgers", ColorblindPreferences.ShowBurgerLabels);
+            addBool("Pizza", ColorblindPreferences.ShowPizzaLabels);
             addBool("Standalone Ingredients", ColorblindPreferences.ShowStandaloneLabels);
         }
 
