@@ -3,7 +3,10 @@
 Adds colorblind labels to:
 * Stir Fry, using the familiar B/C/Me labels. Sides of broccoli are displayed as "-b", to differentiate.
 * Turkey + sides
-* Chopped onion, broccoli, and carrots (when standalone)
+* Burgers
+* Pizza
+* Salad
+* Chopped onion, broccoli, carrots, mushroom, cheese, olive, lettuce (when standalone)
 
 Additionally, reorders the ice cream bowl labels (CSV) to be consistent with the appliance (SCV).
 

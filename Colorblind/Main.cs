@@ -27,7 +27,9 @@ namespace Colorblind {
             { ItemReferences.CheeseGrated, "Ch" },
             { ItemReferences.CranberriesChopped, "Cr" },
             { ItemReferences.CranberrySauce, "Csauce" },
+            { ItemReferences.LettuceChopped, "L" },
             { ItemReferences.MushroomChopped, "Mu" },
+            { ItemReferences.Olive, "Ol" },
             { ItemReferences.OnionChopped, "O" },
             { ItemReferences.Stuffing, "Stuff" },
             { ItemReferences.StuffingRaw, "Stuff" },
@@ -53,6 +55,7 @@ namespace Colorblind {
             addLabelsToTurkey();
             addLabelsToBurgers();
             addLabelsToPizza();
+            addLabelsToSalad();
             makeIceCreamOrderingConsistentWithAppliance();
             addSingleItemLabels();
         }
@@ -112,6 +115,15 @@ namespace Colorblind {
             setupColorBlindFeatureForItem(ItemReferences.PizzaCooked, pizzaLabels);
             setupColorBlindFeatureForItem(ItemReferences.PizzaPlated, pizzaLabels);
             setupColorBlindFeatureForItem(ItemReferences.PizzaSlice, pizzaLabels);
+        }
+
+        private void addLabelsToSalad() {
+            if (!ColorblindPreferences.isOn(ColorblindPreferences.ShowSaladLabels)) {
+                Debug.Log($"{MOD_ID}] Salads are off. Not adding labels.");
+                return;
+            }
+
+            setupColorBlindFeatureForItem(ItemReferences.SaladPlated, ColourBlindLabelCreator.createSaladLabels());
         }
 
         private void makeIceCreamOrderingConsistentWithAppliance() {
@@ -267,6 +279,15 @@ namespace Colorblind {
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.MushroomCookedWrapped), Text = "Mu" },
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.OnionChopped), Text = "O" },
                 new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.OnionCookedWrapped), Text = "O" },
+            };
+        }
+
+        public static IEnumerable createSaladLabels() {
+            return new List<ColourBlindLabel> {
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.LettuceChopped), Text = "L" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.Olive), Text = "Ol" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.OnionChopped), Text = "O" },
+                new ColourBlindLabel { Item = GameData.Main.Get<Item>(ItemReferences.TomatoChopped), Text = "T" },
             };
         }
     }
