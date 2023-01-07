@@ -22,6 +22,7 @@ namespace Colorblind {
             addBool("Pizza", ColorblindPreferences.ShowPizzaLabels);
             addBool("Salad", ColorblindPreferences.ShowSaladLabels);
             addBool("Standalone Ingredients", ColorblindPreferences.ShowStandaloneLabels);
+            addBool("Reorder Ice Cream Labels", ColorblindPreferences.ReorderIceCreamLabels);
         }
 
         private void addBool(string label, Pref pref) {

@@ -97,6 +97,8 @@
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorblindService.cs" />
+    <Compile Include="ColourBlindLabels.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="Main.cs" />

@@ -10,6 +10,7 @@ namespace Colorblind {
         public static readonly Pref ShowBurgerLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowBurgerLabels));
         public static readonly Pref ShowPizzaLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowPizzaLabels));
         public static readonly Pref ShowSaladLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowSaladLabels));
+        public static readonly Pref ReorderIceCreamLabels = new Pref(ColorblindMod.MOD_ID, nameof(ReorderIceCreamLabels));
 
         public static void registerPreferences() {
             addBoolPreference(ShowStirFryLabels);
@@ -18,6 +19,7 @@ namespace Colorblind {
             addBoolPreference(ShowBurgerLabels);
             addBoolPreference(ShowPizzaLabels);
             addBoolPreference(ShowSaladLabels);
+            addBoolPreference(ReorderIceCreamLabels);
             Preferences.Load();
         }
 
