@@ -1,6 +1,6 @@
 ﻿using Kitchen;
 
-namespace Colorblind {
+namespace Colorblind.Settings {
 
     public class ColorblindPreferences {
 
@@ -10,7 +10,9 @@ namespace Colorblind {
         public static readonly Pref ShowBurgerLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowBurgerLabels));
         public static readonly Pref ShowPizzaLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowPizzaLabels));
         public static readonly Pref ShowSaladLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowSaladLabels));
+        public static readonly Pref ShowSteakLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowSteakLabels));
         public static readonly Pref ReorderIceCreamLabels = new Pref(ColorblindMod.MOD_ID, nameof(ReorderIceCreamLabels));
+        public static readonly Pref DisplayStyle = new Pref(ColorblindMod.MOD_ID, nameof(DisplayStyle));
 
         public static void registerPreferences() {
             addBoolPreference(ShowStirFryLabels);
@@ -19,7 +21,9 @@ namespace Colorblind {
             addBoolPreference(ShowBurgerLabels);
             addBoolPreference(ShowPizzaLabels);
             addBoolPreference(ShowSaladLabels);
+            addBoolPreference(ShowSteakLabels);
             addBoolPreference(ReorderIceCreamLabels);
+            Preferences.AddPreference<int>(new IntPreference(DisplayStyle, (int)(DisplayStyles.EXPANDED)));
             Preferences.Load();
         }
 
@@ -33,6 +37,18 @@ namespace Colorblind {
 
         private static void addBoolPreference(Pref pref) {
             Preferences.AddPreference<bool>(new BoolPreference(pref, true));
+        }
+
+        public static bool isDisplayStyle(DisplayStyles style) {
+            return Preferences.Get<int>(DisplayStyle) == (int)style;
+        }
+
+        public static DisplayStyles getDisplayStyle() {
+            return (DisplayStyles)Preferences.Get<int>(DisplayStyle);
+        }
+
+        public static void setDisplayStyle(DisplayStyles value) {
+            Preferences.Set<int>(DisplayStyle, (int)value);
         }
     }
 }
