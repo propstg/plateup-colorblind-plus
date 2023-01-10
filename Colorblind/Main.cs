@@ -16,7 +16,7 @@ namespace Colorblind {
         public const string MOD_ID = "blargle.ColorblindPlus";
         public const string MOD_NAME = "Colorblind+";
         public const string MOD_AUTHOR = "blargle";
-        public const string MOD_VERSION = "0.0.6";
+        public const string MOD_VERSION = "0.0.7";
 
         private ColorblindService service;
 
@@ -69,9 +69,7 @@ namespace Colorblind {
 
         private void addLabelsToSteak() {
             clearExistingSteakLabels();
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.SteakPlated },
-                ColourBlindLabelCreator.createSteakLabels(),
-                ColorblindPreferences.ShowSteakLabels);
+            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.SteakPlated }, ColourBlindLabelCreator.createSteakLabels(), ColorblindPreferences.ShowSteakLabels);
             service.addSingleItemLabels(SingleItems.STEAK_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowSteakLabels);
         }
 
@@ -100,16 +98,16 @@ namespace Colorblind {
                 args.mInfo.Invoke(args.instance, new object[] { MOD_NAME, typeof(MainMenu<>).MakeGenericType(type), false });
             };
             Events.PreferenceMenu_MainMenu_CreateSubmenusEvent += (s, args) => {
+                args.Menus.Add(typeof(AdditionalSettingsMenu<MainMenuAction>), new AdditionalSettingsMenu<MainMenuAction>(args.Container, args.Module_list));
                 args.Menus.Add(typeof(MainMenu<MainMenuAction>), new MainMenu<MainMenuAction>(args.Container, args.Module_list));
-                args.Menus.Add(typeof(DishesMenu<MainMenuAction>), new DishesMenu<MainMenuAction>(args.Container, args.Module_list));
             };
             Events.PreferenceMenu_PauseMenu_SetupEvent += (s, args) => {
                 Type type = args.instance.GetType().GetGenericArguments()[0];
                 args.mInfo.Invoke(args.instance, new object[] { MOD_NAME, typeof(MainMenu<>).MakeGenericType(type), false });
             };
             Events.PreferenceMenu_PauseMenu_CreateSubmenusEvent += (s, args) => {
+                args.Menus.Add(typeof(AdditionalSettingsMenu<PauseMenuAction>), new AdditionalSettingsMenu<PauseMenuAction>(args.Container, args.Module_list));
                 args.Menus.Add(typeof(MainMenu<PauseMenuAction>), new MainMenu<PauseMenuAction>(args.Container, args.Module_list));
-                args.Menus.Add(typeof(DishesMenu<PauseMenuAction>), new DishesMenu<PauseMenuAction>(args.Container, args.Module_list));
             };
         }
     }

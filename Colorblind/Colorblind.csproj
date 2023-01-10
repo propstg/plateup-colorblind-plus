@@ -102,8 +102,8 @@
     <Compile Include="Labels\BaseLabels.cs" />
     <Compile Include="Labels\SingleItems.cs" />
     <Compile Include="Labels\VariableLabel.cs" />
-    <Compile Include="Menus\DishesMenu.cs" />
     <Compile Include="Menus\MainMenu.cs" />
+    <Compile Include="Menus\AdditionalSettingsMenu.cs" />
     <Compile Include="Settings\DisplayStyles.cs" />
     <Compile Include="Settings\Preferences.cs" />
     <Compile Include="Main.cs" />
