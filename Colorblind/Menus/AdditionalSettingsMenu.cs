@@ -14,7 +14,7 @@ namespace Colorblind.Menus {
         private static readonly List<int> displayStyleValues = new List<int> { (int)DisplayStyles.COMPRESSED, (int)DisplayStyles.EXPANDED };
         private static readonly List<string> displayStyleLabels = new List<string> { "Compressed", "Expanded" };
 
-        public AdditionalSettingsMenu(Transform container, ModuleList module_list) : base(container, module_list) { }
+        public AdditionalSettingsMenu(Transform container, ModuleList module_list) : base(container, module_list) {}
 
         public override void Setup(int _) {
             addDisplayStyle();

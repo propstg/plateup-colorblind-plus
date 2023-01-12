@@ -13,6 +13,10 @@ namespace Colorblind.Settings {
         public static readonly Pref ShowSteakLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowSteakLabels));
         public static readonly Pref ReorderIceCreamLabels = new Pref(ColorblindMod.MOD_ID, nameof(ReorderIceCreamLabels));
         public static readonly Pref DisplayStyle = new Pref(ColorblindMod.MOD_ID, nameof(DisplayStyle));
+        public static readonly Pref FontSize = new Pref(ColorblindMod.MOD_ID, nameof(FontSize));
+        public static readonly Pref FontInvertColors = new Pref(ColorblindMod.MOD_ID, nameof(FontInvertColors));
+        public static readonly Pref FontWideShadow = new Pref(ColorblindMod.MOD_ID, nameof(FontWideShadow));
+        public static readonly Pref FontVerticalOffset = new Pref(ColorblindMod.MOD_ID, nameof(FontVerticalOffset));
 
         public static void registerPreferences() {
             addBoolPreference(ShowStirFryLabels);
@@ -24,6 +28,10 @@ namespace Colorblind.Settings {
             addBoolPreference(ShowSteakLabels);
             addBoolPreference(ReorderIceCreamLabels);
             Preferences.AddPreference<int>(new IntPreference(DisplayStyle, (int)(DisplayStyles.EXPANDED)));
+            Preferences.AddPreference<float>(new FloatPreference(FontSize, 2.0f));
+            addBoolPreference(FontInvertColors);
+            addBoolPreference(FontWideShadow);
+            Preferences.AddPreference<float>(new FloatPreference(FontVerticalOffset, 0f));
             Preferences.Load();
         }
 
@@ -49,6 +57,22 @@ namespace Colorblind.Settings {
 
         public static void setDisplayStyle(DisplayStyles value) {
             Preferences.Set<int>(DisplayStyle, (int)value);
+        }
+
+        public static float getFloat(Pref pref) {
+            return Preferences.Get<float>(pref);
+        }
+
+        public static void setFloat(Pref pref, float value) {
+            Preferences.Set<float>(pref, value);
+        }
+
+        public static float getFontSize() {
+            return getFloat(FontSize);
+        }
+
+        public static float getFontVerticalOffset() {
+            return getFloat(FontVerticalOffset);
         }
     }
 }

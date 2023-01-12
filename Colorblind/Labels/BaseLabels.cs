@@ -1,4 +1,5 @@
 ﻿namespace Colorblind.Labels {
+
     public static class BaseLabels {
         public static readonly VariableLabel Medium = new VariableLabel("-M\n", "M");
         public static readonly VariableLabel Rare = new VariableLabel("-R\n", "R");

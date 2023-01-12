@@ -127,6 +127,39 @@ namespace Colorblind {
             return titleChild.GetComponent<TextMeshPro>();
         }
 
+        public void updateLabelStyles() {
+            float fontSize = ColorblindPreferences.getFontSize();
+            bool invertColors = ColorblindPreferences.isOn(ColorblindPreferences.FontInvertColors);
+            bool wideShadow = ColorblindPreferences.isOn(ColorblindPreferences.FontWideShadow);
+            float verticalOffset = ColorblindPreferences.getFontVerticalOffset();
+
+            float outlineWidth = wideShadow ? 0.2f : 0.107f;
+            FontStyles fontStyle = wideShadow ? FontStyles.Bold : FontStyles.Normal;
+            Color32 outlineColor = invertColors ? new Color32(255, 255, 255, 255) : new Color32(0, 0, 0, 255);
+            Color color = invertColors ? new Color(0, 0, 0, 1) : new Color(0.881f, 0.923f, 1f, 1f);
+            Vector3 offset = new Vector3(0f, verticalOffset, 0f);
+
+            Debug.Log($"[{ColorblindMod.MOD_ID}] Font size = {fontSize}, invertColors = {invertColors}, wideShadow = {wideShadow}");
+
+            IEnumerable<Item> enumerable = GameData.Main.Get<Item>();
+            foreach (Item item in enumerable) {
+                if (item.Prefab == null) {
+                    continue;
+                }
+
+                List<GameObject> colourBlindChildren = findChildrenByName(item.Prefab, "Colour Blind");
+                foreach (GameObject colourBlindChild in colourBlindChildren) {
+                    colourBlindChild.transform.localPosition = offset;
+                    TextMeshPro textMeshPro = getTextMeshProFromClonedObject(colourBlindChild);
+                    textMeshPro.fontSize = fontSize;
+                    textMeshPro.outlineWidth = outlineWidth;
+                    textMeshPro.fontStyle = fontStyle;
+                    textMeshPro.outlineColor = outlineColor;
+                    textMeshPro.color = color;
+                }
+            }
+        }
+
         [System.Diagnostics.Conditional("DEBUG")]
         private void printExistingInfo() {
             foreach (Item item in GameData.Main.Get<Item>()) {
