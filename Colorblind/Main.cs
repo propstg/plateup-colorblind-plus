@@ -15,7 +15,7 @@ namespace Colorblind {
         public const string MOD_ID = "blargle.ColorblindPlus";
         public const string MOD_NAME = "Colorblind+";
         public const string MOD_AUTHOR = "blargle";
-        public const string MOD_VERSION = "0.0.8";
+        public const string MOD_VERSION = "0.0.9";
 
         private ColorblindService service;
 
@@ -26,6 +26,7 @@ namespace Colorblind {
             initMenus();
             service = new ColorblindService();
 
+            setupConsentElementUpdateTicksOverridePatch();
             addLabelsToStirFry();
             addLabelsToTurkey();
             addLabelsToBurgers();
@@ -35,6 +36,10 @@ namespace Colorblind {
             makeIceCreamOrderingConsistentWithAppliance();
             service.addSingleItemLabels(SingleItems.SINGLE_ITEM_LABELS, ColorblindPreferences.ShowStandaloneLabels);
             service.updateLabelStyles();
+        }
+
+        private void setupConsentElementUpdateTicksOverridePatch() {
+            ConsentElement_UpdateTicks_Patch.overriddenFontAsset = service.getFontFromTextMeshPro();
         }
 
         private void addLabelsToStirFry() {
@@ -95,7 +100,7 @@ namespace Colorblind {
         private void initMenus() {
             ModsPreferencesMenu<PauseMenuAction>.RegisterMenu(MOD_NAME, typeof(MainMenu<PauseMenuAction>), typeof(PauseMenuAction));
             Events.PreferenceMenu_PauseMenu_CreateSubmenusEvent += (s, args) => {
-                args.Menus.Add(typeof(AdditionalSettingsMenu<PauseMenuAction>), new AdditionalSettingsMenu<PauseMenuAction>(args.Container, args.Module_list, service));
+                args.Menus.Add(typeof(AdditionalSettingsMenu<PauseMenuAction>), new AdditionalSettingsMenu<PauseMenuAction>(args.Container, args.Module_list));
                 args.Menus.Add(typeof(DishesMenu<PauseMenuAction>), new DishesMenu<PauseMenuAction>(args.Container, args.Module_list));
                 args.Menus.Add(typeof(FontSettingsMenu<PauseMenuAction>), new FontSettingsMenu<PauseMenuAction>(args.Container, args.Module_list, service));
                 args.Menus.Add(typeof(MainMenu<PauseMenuAction>), new MainMenu<PauseMenuAction>(args.Container, args.Module_list));

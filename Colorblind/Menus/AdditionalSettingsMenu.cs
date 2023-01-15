@@ -19,6 +19,7 @@ namespace Colorblind.Menus {
         public override void Setup(int _) {
             addDisplayStyle();
             addBool("Reorder Ice Cream Labels", ColorblindPreferences.ReorderIceCreamLabels);
+            addBool("Ready Check - Names", ColorblindPreferences.NamesInsteadOfChecks);
             New<SpacerElement>();
             AddInfo("Note: Changes made here will only take place after a game restart.");
             New<SpacerElement>();

@@ -160,6 +160,8 @@ namespace Colorblind {
             }
         }
 
+        public TMP_FontAsset getFontFromTextMeshPro() => getTextMeshProFromClonedObject(existingColourBlindChild).font;
+
         [System.Diagnostics.Conditional("DEBUG")]
         private void printExistingInfo() {
             foreach (Item item in GameData.Main.Get<Item>()) {
