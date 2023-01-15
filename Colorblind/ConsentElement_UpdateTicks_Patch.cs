@@ -21,14 +21,11 @@ namespace Colorblind {
             string newText = "";
             foreach (KeyValuePair<int, bool> consent in ___Consents) {
                 if (consent.Value) {
-                    if (newText.Length > 0) {
-                        newText += ", ";
-                    }
-
+                    string prefix = newText.Length > 0 ? ", " : "";
                     var player = Players.Main.Get(consent.Key);
                     string color = ColorUtility.ToHtmlStringRGB(player.Profile.Colour);
-                    string name = player.Name.Substring(0, 2);
-                    newText += $"<color=#{color}>{name}</color>";
+                    string name = player.Username.Substring(0, 2);
+                    newText += $"{prefix}<color=#{color}>{name}</color>";
                 }
             }
             ___Ticks.text = newText;
