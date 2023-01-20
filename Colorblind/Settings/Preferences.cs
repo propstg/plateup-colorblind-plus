@@ -20,8 +20,8 @@ namespace Colorblind.Settings {
         public static readonly Pref NamesInsteadOfChecks = new Pref(ColorblindMod.MOD_ID, nameof(NamesInsteadOfChecks));
 
         public static void registerPreferences() {
-            addBoolPreference(ShowStirFryLabels);
-            addBoolPreference(ShowTurkeyLabels);
+            addBoolPreference(ShowStirFryLabels, false);
+            addBoolPreference(ShowTurkeyLabels, false);
             addBoolPreference(ShowStandaloneLabels);
             addBoolPreference(ShowBurgerLabels);
             addBoolPreference(ShowPizzaLabels);
@@ -35,6 +35,9 @@ namespace Colorblind.Settings {
             Preferences.AddPreference<float>(new FloatPreference(FontVerticalOffset, 0f));
             addBoolPreference(NamesInsteadOfChecks);
             Preferences.Load();
+
+            setBool(ShowStirFryLabels, false);
+            setBool(ShowTurkeyLabels, false);
         }
 
         public static bool isOn(Pref pref) {
@@ -47,6 +50,10 @@ namespace Colorblind.Settings {
 
         private static void addBoolPreference(Pref pref) {
             Preferences.AddPreference<bool>(new BoolPreference(pref, true));
+        }
+
+        private static void addBoolPreference(Pref pref, bool defaultValue) {
+            Preferences.AddPreference<bool>(new BoolPreference(pref, defaultValue));
         }
 
         public static bool isDisplayStyle(DisplayStyles style) {

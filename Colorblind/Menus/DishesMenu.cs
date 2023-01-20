@@ -16,8 +16,8 @@ namespace Colorblind.Menus {
 
         public override void Setup(int _) {
             AddInfo("Toggle dishes that you want to see additional labels on and off. Turning them off will allow the game's normal labels to display, if any exist for that dish.");
-            addBool("Stir Fry", ColorblindPreferences.ShowStirFryLabels);
-            addBool("Turkey", ColorblindPreferences.ShowTurkeyLabels);
+            addDisabledBool("Stir Fry");
+            addDisabledBool("Turkey");
             addBool("Burgers", ColorblindPreferences.ShowBurgerLabels);
             addBool("Pizza", ColorblindPreferences.ShowPizzaLabels);
             addBool("Salad", ColorblindPreferences.ShowSaladLabels);
@@ -26,6 +26,12 @@ namespace Colorblind.Menus {
             AddInfo("Note: Changes made here will only take place after a game restart.");
             New<SpacerElement>();
             AddButton(Localisation["MENU_BACK_SETTINGS"], delegate { RequestPreviousMenu(); });
+        }
+
+        private void addDisabledBool(string label) {
+            Option<bool> option = new Option<bool>(new List<bool> { false }, false, new List<string> { "Added to Base Game!"});
+            AddLabel(label);
+            AddSelect(option);
         }
 
         private void addBool(string label, Pref pref) {
