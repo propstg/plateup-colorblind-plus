@@ -1,19 +1,16 @@
-﻿using Kitchen;
-using KitchenData;
+﻿using KitchenLib.Colorblind;
 using KitchenLib.References;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Colorblind.Labels {
 
-    public class ColourBlindLabelCreator : ItemGroupView {
+    public class ColourBlindLabelCreator {
 
-        private static ColourBlindLabel createLabel(int itemId, VariableLabel label) {
-            return new ColourBlindLabel { Item = GameData.Main.Get<Item>(itemId), Text = label.ToString() };
+        private static ItemLabel createLabel(int itemId, VariableLabel label) {
+            return new ItemLabel { itemId = itemId, label = label.ToString() };
         }
 
-        public static IEnumerable createStirFryLabels() {
-            return new List<ColourBlindLabel> {
+        public static ItemLabel[] createStirFryLabels() {
+            return new ItemLabel[] {
                 createLabel(ItemReferences.BroccoliChopped, BaseLabels.Broccoli),
                 createLabel(ItemReferences.BroccoliChoppedContainerCooked,BaseLabels.Broccoli),
                 createLabel(ItemReferences.CarrotChopped, BaseLabels.Carrot),
@@ -24,8 +21,8 @@ namespace Colorblind.Labels {
             };
         }
 
-        public static IEnumerable createTurkeyLabels() {
-            return new List<ColourBlindLabel> {
+        public static ItemLabel[] createTurkeyLabels() {
+            return new ItemLabel[] {
                 createLabel(ItemReferences.TurkeySlice, BaseLabels.Turkey),
                 createLabel(ItemReferences.CranberrySauce, BaseLabels.CranberrySauce),
                 createLabel(ItemReferences.TurkeyGravy, BaseLabels.Gravy),
@@ -33,24 +30,24 @@ namespace Colorblind.Labels {
             };
         }
 
-        public static IEnumerable createConsistentIceCreamLabels() {
-            return new List<ColourBlindLabel> {
+        public static ItemLabel[] createConsistentIceCreamLabels() {
+            return new ItemLabel[] {
                 createLabel(ItemReferences.IceCreamStrawberry, BaseLabels.IceCreamStrawberry),
                 createLabel(ItemReferences.IceCreamChocolate, BaseLabels.IceCreamChocolate),
                 createLabel(ItemReferences.IceCreamVanilla, BaseLabels.IceCreamVanilla),
             };
         }
 
-        public static IEnumerable createBurgerLabels() {
-            return new List<ColourBlindLabel> {
+        public static ItemLabel[] createBurgerLabels() {
+            return new ItemLabel[] {
                 createLabel(ItemReferences.CheeseGrated, BaseLabels.Cheese),
                 createLabel(ItemReferences.OnionChopped, BaseLabels.Onion),
                 createLabel(ItemReferences.TomatoChopped, BaseLabels.Tomato),
             };
         }
 
-        public static IEnumerable createPizzaLabels() {
-            return new List<ColourBlindLabel> {
+        public static ItemLabel[] createPizzaLabels() {
+            return new ItemLabel[] {
                 createLabel(ItemReferences.CheeseGrated, BaseLabels.Cheese),
                 createLabel(ItemReferences.CheeseWrappedCooked, BaseLabels.Cheese),
                 createLabel(ItemReferences.MushroomChopped, BaseLabels.Mushroom),
@@ -60,8 +57,8 @@ namespace Colorblind.Labels {
             };
         }
 
-        public static IEnumerable createSaladLabels() {
-            return new List<ColourBlindLabel> {
+        public static ItemLabel[] createSaladLabels() {
+            return new ItemLabel[] {
                 createLabel(ItemReferences.LettuceChopped, BaseLabels.Lettuce),
                 createLabel(ItemReferences.Olive, BaseLabels.Olive),
                 createLabel(ItemReferences.OnionChopped, BaseLabels.Onion),
@@ -69,8 +66,8 @@ namespace Colorblind.Labels {
             };
         }
 
-        public static IEnumerable createSteakLabels() {
-            return new List<ColourBlindLabel> {
+        public static ItemLabel[] createSteakLabels() {
+            return new ItemLabel[] {
                 createLabel(ItemReferences.SteakRare, BaseLabels.SteakRegularRare),
                 createLabel(ItemReferences.SteakMedium, BaseLabels.SteakRegularMedium),
                 createLabel(ItemReferences.SteakWelldone, BaseLabels.SteakRegularWelldone),
