@@ -24,18 +24,21 @@ namespace Colorblind {
         protected override void OnInitialise() {
             ColorblindPreferences.registerPreferences();
             initMenus();
-            service = new ColorblindService();
 
-            setupConsentElementUpdateTicksOverridePatch();
-            addLabelsToStirFry();
-            addLabelsToTurkey();
-            addLabelsToBurgers();
-            addLabelsToPizza();
-            addLabelsToSalad();
-            addLabelsToSteak();
-            makeIceCreamOrderingConsistentWithAppliance();
-            service.addSingleItemLabels(SingleItems.SINGLE_ITEM_LABELS, ColorblindPreferences.ShowStandaloneLabels);
-            service.updateLabelStyles();
+            Events.BuildGameDataEvent += delegate (object s, BuildGameDataEventArgs args) {
+                service = new ColorblindService();
+                setupConsentElementUpdateTicksOverridePatch();
+                addLabelsToStirFry();
+                addLabelsToTurkey();
+                addLabelsToBurgers();
+                addLabelsToPizza();
+                addLabelsToSalad();
+                addLabelsToSteak();
+                addLabelsToDumplings();
+                makeIceCreamOrderingConsistentWithAppliance();
+                service.addSingleItemLabels(SingleItems.SINGLE_ITEM_LABELS, ColorblindPreferences.ShowStandaloneLabels);
+                service.updateLabelStyles();
+            };
         }
 
         private void setupConsentElementUpdateTicksOverridePatch() {
@@ -76,6 +79,16 @@ namespace Colorblind {
             clearExistingSteakLabels();
             service.setupColorblindFeatureForItems(new List<int> { ItemReferences.SteakPlated }, ColourBlindLabelCreator.createSteakLabels(), ColorblindPreferences.ShowSteakLabels);
             service.addSingleItemLabels(SingleItems.STEAK_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowSteakLabels);
+        }
+
+        private void addLabelsToDumplings() {
+            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.DumplingsRaw },
+                ColourBlindLabelCreator.createUncookedDumplingLabels(),
+                ColorblindPreferences.ShowDumplingLabels);
+            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.DumplingsPlated },
+                ColourBlindLabelCreator.createCookedDumplingsLabels(),
+                ColorblindPreferences.ShowDumplingLabels);
+            service.addSingleItemLabels(SingleItems.DUMPLING_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowDumplingLabels);
         }
 
         private void clearExistingSteakLabels() {

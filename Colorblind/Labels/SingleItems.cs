@@ -13,9 +13,12 @@ namespace Colorblind.Labels {
             { ItemReferences.CranberriesChopped, BaseLabels.Cranberry },
             { ItemReferences.CranberrySauce, BaseLabels.CranberrySauce },
             { ItemReferences.LettuceChopped, BaseLabels.Lettuce },
+            { ItemReferences.MeatChopped, BaseLabels.Meat },
             { ItemReferences.MushroomChopped, BaseLabels.Mushroom },
             { ItemReferences.Olive, BaseLabels.Olive },
             { ItemReferences.OnionChopped, BaseLabels.Onion },
+            { ItemReferences.Seaweed, BaseLabels.Seaweed },
+            { ItemReferences.SeaweedCooked, BaseLabels.Seaweed },
             { ItemReferences.Stuffing, BaseLabels.Stuffing },
             { ItemReferences.StuffingRaw, BaseLabels.Stuffing },
             { ItemReferences.TomatoChopped, BaseLabels.Tomato },
@@ -39,6 +42,11 @@ namespace Colorblind.Labels {
             { ItemReferences.MeatThick, BaseLabels.SteakThick },
             { ItemReferences.MeatThin, BaseLabels.SteakThin },
             { ItemReferences.MeatBoned, BaseLabels.SteakBone },
+        };
+
+        public static readonly Dictionary<int, VariableLabel> DUMPLING_SINGLE_ITEM_LABELS = new Dictionary<int, VariableLabel>() {
+            { ItemReferences.CookedDumplings, BaseLabels.Dumplings },
+            { ItemReferences.PreparedDumplings, BaseLabels.Dumplings },
         };
     }
 }

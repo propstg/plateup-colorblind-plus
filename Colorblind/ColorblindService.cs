@@ -3,6 +3,7 @@ using Colorblind.Settings;
 using Kitchen;
 using KitchenData;
 using KitchenLib.Colorblind;
+using KitchenLib.References;
 using KitchenLib.Utils;
 using System;
 using System.Collections;
@@ -19,15 +20,17 @@ namespace Colorblind {
         private FieldInfo itemGroupView_componentLabels;
         private FieldInfo colourblindLabel_text;
         private FieldInfo colourblindLabel_item;
-        private GameObject existingColorblindChild;
+        private GameObject existingColourblindChild;
 
         public ColorblindService() {
             buildReflectionCache();
+            getExistingColourBlindChildToCloneFromPie();
             printExistingInfo();
+        }
 
-            Type type = typeof(ColorblindUtils);
-            PropertyInfo property = type.GetProperty("existingColourBlindChild", BindingFlags.NonPublic | BindingFlags.Static);
-            existingColorblindChild = (GameObject) property.GetValue(null);
+        private void getExistingColourBlindChildToCloneFromPie() {
+            Item item = GameData.Main.Get<Item>(ItemReferences.PieMeatCooked);
+            existingColourblindChild = GameObjectUtils.GetChildObject(item.Prefab, "Colour Blind");
         }
 
         private void buildReflectionCache() {
@@ -115,7 +118,7 @@ namespace Colorblind {
             return children;
         }
 
-        public TMP_FontAsset getFontFromTextMeshPro() => ColorblindUtils.getTextMeshProFromClonedObject(existingColorblindChild).font;
+        public TMP_FontAsset getFontFromTextMeshPro() => ColorblindUtils.getTextMeshProFromClonedObject(existingColourblindChild).font;
 
         [System.Diagnostics.Conditional("DEBUG")]
         private void printExistingInfo() {

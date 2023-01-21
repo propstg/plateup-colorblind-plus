@@ -1,5 +1,6 @@
 ﻿using KitchenLib.Colorblind;
 using KitchenLib.References;
+using System;
 
 namespace Colorblind.Labels {
 
@@ -84,6 +85,20 @@ namespace Colorblind.Labels {
                 createLabel(ItemReferences.SauceMushroomPortion, BaseLabels.MushroomSauce),
                 createLabel(ItemReferences.TomatoChopped, BaseLabels.SteakTomato),
                 createLabel(ItemReferences.MushroomChopped, BaseLabels.SteakMushroom),
+            };
+        }
+
+        public static ItemLabel[] createUncookedDumplingLabels() {
+            return new ItemLabel[] {
+                createLabel(ItemReferences.MeatChopped, BaseLabels.Meat),
+                createLabel(ItemReferences.CarrotChopped, BaseLabels.Carrot),
+            };
+        }
+
+        public static ItemLabel[] createCookedDumplingsLabels() {
+            return new ItemLabel[] {
+                createLabel(ItemReferences.CookedDumplings, BaseLabels.Dumplings),
+                createLabel(ItemReferences.SeaweedCooked, BaseLabels.Seaweed),
             };
         }
     }

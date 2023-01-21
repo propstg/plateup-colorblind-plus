@@ -11,7 +11,9 @@ namespace Colorblind.Settings {
         public static readonly Pref ShowPizzaLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowPizzaLabels));
         public static readonly Pref ShowSaladLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowSaladLabels));
         public static readonly Pref ShowSteakLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowSteakLabels));
+        public static readonly Pref ShowDumplingLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowDumplingLabels));
         public static readonly Pref ReorderIceCreamLabels = new Pref(ColorblindMod.MOD_ID, nameof(ReorderIceCreamLabels));
+
         public static readonly Pref DisplayStyle = new Pref(ColorblindMod.MOD_ID, nameof(DisplayStyle));
         public static readonly Pref FontSize = new Pref(ColorblindMod.MOD_ID, nameof(FontSize));
         public static readonly Pref FontInvertColors = new Pref(ColorblindMod.MOD_ID, nameof(FontInvertColors));
@@ -27,6 +29,7 @@ namespace Colorblind.Settings {
             addBoolPreference(ShowPizzaLabels);
             addBoolPreference(ShowSaladLabels);
             addBoolPreference(ShowSteakLabels);
+            addBoolPreference(ShowDumplingLabels);
             addBoolPreference(ReorderIceCreamLabels);
             Preferences.AddPreference<int>(new IntPreference(DisplayStyle, (int)(DisplayStyles.EXPANDED)));
             Preferences.AddPreference<float>(new FloatPreference(FontSize, 2.0f));

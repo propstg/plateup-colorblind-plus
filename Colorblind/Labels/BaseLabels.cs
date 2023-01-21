@@ -16,6 +16,7 @@
         public static readonly VariableLabel Cheese = new VariableLabel("Ch");
         public static readonly VariableLabel Cranberry = new VariableLabel("Cr");
         public static readonly VariableLabel CranberrySauce = new VariableLabel("Csauce", "Cs");
+        public static readonly VariableLabel Dumplings = new VariableLabel("MeC");
         public static readonly VariableLabel Gravy = new VariableLabel("G");
         public static readonly VariableLabel IceCreamChocolate = new VariableLabel("C");
         public static readonly VariableLabel IceCreamStrawberry = new VariableLabel("S");
@@ -27,6 +28,7 @@
         public static readonly VariableLabel Olive = new VariableLabel("Ol");
         public static readonly VariableLabel Onion = new VariableLabel("O");
         public static readonly VariableLabel RedWineJus = new VariableLabel("J");
+        public static readonly VariableLabel Seaweed = new VariableLabel("Sw");
         public static readonly VariableLabel SteakBoneMedium = new VariableLabel(SteakBone, Medium);
         public static readonly VariableLabel SteakBoneRare = new VariableLabel(SteakBone, Rare);
         public static readonly VariableLabel SteakBoneWelldone = new VariableLabel(SteakBone, Welldone);
