@@ -39,6 +39,14 @@ namespace Colorblind.Labels {
             };
         }
 
+        public static ItemLabel[] createConsistentIceCreamLabelsReversed() {
+            return new ItemLabel[] {
+                createLabel(ItemReferences.IceCreamVanilla, BaseLabels.IceCreamVanilla),
+                createLabel(ItemReferences.IceCreamChocolate, BaseLabels.IceCreamChocolate),
+                createLabel(ItemReferences.IceCreamStrawberry, BaseLabels.IceCreamStrawberry),
+            };
+        }
+
         public static ItemLabel[] createBurgerLabels() {
             return new ItemLabel[] {
                 createLabel(ItemReferences.CheeseGrated, BaseLabels.Cheese),

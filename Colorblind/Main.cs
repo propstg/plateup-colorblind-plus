@@ -3,6 +3,7 @@ using Colorblind.Menus;
 using Colorblind.Settings;
 using Kitchen;
 using KitchenLib;
+using KitchenLib.Colorblind;
 using KitchenLib.Event;
 using KitchenLib.References;
 using System.Collections.Generic;
@@ -15,11 +16,11 @@ namespace Colorblind {
         public const string MOD_ID = "blargle.ColorblindPlus";
         public const string MOD_NAME = "Colorblind+";
         public const string MOD_AUTHOR = "blargle";
-        public const string MOD_VERSION = "0.0.12";
+        public const string MOD_VERSION = "0.0.13";
 
         private ColorblindService service;
 
-        public ColorblindMod() : base(MOD_ID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, "1.1.3", Assembly.GetExecutingAssembly()) { }
+        public ColorblindMod() : base(MOD_ID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, ">=1.1.3", Assembly.GetExecutingAssembly()) { }
 
         protected override void OnInitialise() {
             ColorblindPreferences.registerPreferences();
@@ -105,9 +106,20 @@ namespace Colorblind {
         }
 
         private void makeIceCreamOrderingConsistentWithAppliance() {
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.IceCreamServing },
-                ColourBlindLabelCreator.createConsistentIceCreamLabels(),
-                ColorblindPreferences.ReorderIceCreamLabels);
+            switch (ColorblindPreferences.getIceCreamLabelStyle()) {
+                case IceCreamLabels.SCV:
+                    ColorblindUtils.SetupColorBlindFeatureForItem(new ItemLabelGroup {
+                        itemId = ItemReferences.IceCreamServing,
+                        itemLabels = ColourBlindLabelCreator.createConsistentIceCreamLabels(),
+                    });
+                    break;
+                case IceCreamLabels.VCS:
+                    ColorblindUtils.SetupColorBlindFeatureForItem(new ItemLabelGroup {
+                        itemId = ItemReferences.IceCreamServing,
+                        itemLabels = ColourBlindLabelCreator.createConsistentIceCreamLabelsReversed(),
+                    });
+                    break;
+            }
         }
 
         private void initMenus() {

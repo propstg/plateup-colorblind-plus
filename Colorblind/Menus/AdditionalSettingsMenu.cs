@@ -13,12 +13,14 @@ namespace Colorblind.Menus {
         private static readonly List<string> boolLabels = new List<string> { "Off", "On" };
         private static readonly List<int> displayStyleValues = new List<int> { (int)DisplayStyles.COMPRESSED, (int)DisplayStyles.EXPANDED };
         private static readonly List<string> displayStyleLabels = new List<string> { "Compressed", "Expanded" };
+        private static readonly List<int> iceCreamLabelValues = new List<int> { (int)IceCreamLabels.CSV, (int)IceCreamLabels.SCV, (int)IceCreamLabels.VCS };
+        private static readonly List<string> iceCreamLabelLabels = new List<string> { "CSV", "SCV", "VCS" };
 
         public AdditionalSettingsMenu(Transform container, ModuleList module_list) : base(container, module_list) {}
 
         public override void Setup(int _) {
             addDisplayStyle();
-            addBool("Reorder Ice Cream Labels", ColorblindPreferences.ReorderIceCreamLabels);
+            addIceCreamLabelOrder();
             addBool("Ready Check - Names", ColorblindPreferences.NamesInsteadOfChecks);
             New<SpacerElement>();
             AddInfo("Note: Changes made here will only take place after a game restart.");
@@ -42,6 +44,15 @@ namespace Colorblind.Menus {
             AddInfo("Compressed example: NRMt Expanded example: Tn-R MsT");
             option.OnChanged += delegate (object _, int value) {
                 ColorblindPreferences.setDisplayStyle((DisplayStyles)value);
+            };
+        }
+
+        private void addIceCreamLabelOrder() {
+            Option<int> option = new Option<int>(iceCreamLabelValues, (int)ColorblindPreferences.getIceCreamLabelStyle(), iceCreamLabelLabels);
+            AddLabel("Ice Cream Label Order");
+            AddSelect(option);
+            option.OnChanged += delegate (object _, int value) {
+                ColorblindPreferences.setIceCreamLabelStyle((IceCreamLabels) value);
             };
         }
     }

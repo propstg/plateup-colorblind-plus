@@ -1,4 +1,5 @@
 ﻿using Kitchen;
+using System;
 
 namespace Colorblind.Settings {
 
@@ -13,6 +14,7 @@ namespace Colorblind.Settings {
         public static readonly Pref ShowSteakLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowSteakLabels));
         public static readonly Pref ShowDumplingLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowDumplingLabels));
         public static readonly Pref ReorderIceCreamLabels = new Pref(ColorblindMod.MOD_ID, nameof(ReorderIceCreamLabels));
+        public static readonly Pref IceCreamLabelOrdering = new Pref(ColorblindMod.MOD_ID, nameof(IceCreamLabelOrdering));
 
         public static readonly Pref DisplayStyle = new Pref(ColorblindMod.MOD_ID, nameof(DisplayStyle));
         public static readonly Pref FontSize = new Pref(ColorblindMod.MOD_ID, nameof(FontSize));
@@ -31,7 +33,8 @@ namespace Colorblind.Settings {
             addBoolPreference(ShowSteakLabels);
             addBoolPreference(ShowDumplingLabels);
             addBoolPreference(ReorderIceCreamLabels);
-            Preferences.AddPreference<int>(new IntPreference(DisplayStyle, (int)(DisplayStyles.EXPANDED)));
+            Preferences.AddPreference<int>(new IntPreference(IceCreamLabelOrdering, (int)IceCreamLabels.NOT_SET));
+            Preferences.AddPreference<int>(new IntPreference(DisplayStyle, (int)DisplayStyles.EXPANDED));
             Preferences.AddPreference<float>(new FloatPreference(FontSize, 2.0f));
             addBoolPreference(FontInvertColors);
             addBoolPreference(FontWideShadow);
@@ -41,6 +44,13 @@ namespace Colorblind.Settings {
 
             setBool(ShowStirFryLabels, false);
             setBool(ShowTurkeyLabels, false);
+            migrateIceCreamLabelPreferenceIfNotSet();
+        }
+
+        private static void migrateIceCreamLabelPreferenceIfNotSet() {
+            if (getIceCreamLabelStyle() == IceCreamLabels.NOT_SET) {
+                setIceCreamLabelStyle(isOn(ReorderIceCreamLabels) ? IceCreamLabels.SCV : IceCreamLabels.CSV);
+            }
         }
 
         public static bool isOn(Pref pref) {
@@ -85,6 +95,14 @@ namespace Colorblind.Settings {
 
         public static float getFontVerticalOffset() {
             return getFloat(FontVerticalOffset);
+        }
+
+        public static IceCreamLabels getIceCreamLabelStyle() {
+            return (IceCreamLabels)Preferences.Get<int>(IceCreamLabelOrdering);
+        }
+
+        public static void setIceCreamLabelStyle(IceCreamLabels value) {
+            Preferences.Set<int>(IceCreamLabelOrdering, (int) value);
         }
     }
 }

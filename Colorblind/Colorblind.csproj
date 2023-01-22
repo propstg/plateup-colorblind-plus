@@ -111,6 +111,7 @@
     <Compile Include="Menus\DishesMenu.cs" />
     <Compile Include="Menus\MainMenu.cs" />
     <Compile Include="Menus\AdditionalSettingsMenu.cs" />
+    <Compile Include="Settings\IceCreamLabels.cs" />
     <Compile Include="Settings\DisplayStyles.cs" />
     <Compile Include="Settings\Preferences.cs" />
     <Compile Include="Main.cs" />
