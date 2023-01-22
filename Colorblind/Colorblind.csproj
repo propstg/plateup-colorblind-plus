@@ -102,7 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorblindService.cs" />
-    <Compile Include="ConsentElement_UpdateTicks_Patch.cs" />
+    <Compile Include="ReadyCheckPatches.cs" />
     <Compile Include="Labels\ColourBlindLabelCreator.cs" />
     <Compile Include="Labels\BaseLabels.cs" />
     <Compile Include="Labels\SingleItems.cs" />

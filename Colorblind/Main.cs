@@ -16,7 +16,7 @@ namespace Colorblind {
         public const string MOD_ID = "blargle.ColorblindPlus";
         public const string MOD_NAME = "Colorblind+";
         public const string MOD_AUTHOR = "blargle";
-        public const string MOD_VERSION = "0.0.13";
+        public const string MOD_VERSION = "0.0.14";
 
         private ColorblindService service;
 
@@ -44,6 +44,7 @@ namespace Colorblind {
 
         private void setupConsentElementUpdateTicksOverridePatch() {
             ConsentElement_UpdateTicks_Patch.overriddenFontAsset = service.getFontFromTextMeshPro();
+            EndPracticeView_OnUpdate_Patch.overriddenFontAsset = service.getFontFromTextMeshPro();
         }
 
         private void addLabelsToStirFry() {
