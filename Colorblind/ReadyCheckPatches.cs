@@ -2,6 +2,7 @@
 using HarmonyLib;
 using Kitchen;
 using Kitchen.Modules;
+using KitchenLib.Registry;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -15,7 +16,7 @@ namespace Colorblind {
         public static TMP_FontAsset overriddenFontAsset;
 
         public static void Postfix(TextMeshPro ___Ticks, Dictionary<int, bool> ___Consents) {
-            if (!ColorblindPreferences.isOn(ColorblindPreferences.NamesInsteadOfChecks)) {
+            if (ReadyCheckNamesUtil.shouldSkipPostfix) {
                 return;
             }
 
@@ -36,7 +37,7 @@ namespace Colorblind {
         public static TMP_FontAsset overriddenFontAsset;
 
         public static void Postfix(TextMeshPro ___ContinueTicks, HashSet<int> ___Consents) {
-            if (!ColorblindPreferences.isOn(ColorblindPreferences.NamesInsteadOfChecks)) {
+            if (ReadyCheckNamesUtil.shouldSkipPostfix) {
                 return;
             }
 
@@ -47,11 +48,24 @@ namespace Colorblind {
 
     class ReadyCheckNamesUtil {
 
+        public static bool isReadyCheckNamesInstalled => ModRegistery.Registered.Any(entry => entry.Value.ModID == "blargle.ReadyCheckNames");
+        public static bool shouldSkipPostfix => isReadyCheckNamesInstalled || !ColorblindPreferences.isOn(ColorblindPreferences.NamesInsteadOfChecks);
+
         public static string createPlayerNameString(int playerId) {
             var player = Players.Main.Get(playerId);
             string color = ColorUtility.ToHtmlStringRGB(player.Profile.Colour);
-            string name = player.Username.Substring(0, 2);
-            return $"<color=#{color}>{name}</color>";
+            return $"<color=#{color}>{getName(player)}</color>";
+        }
+
+        private static string getName(PlayerInfo player) {
+            Debug.Log($"player.name: '{player.Name}', player.profileName: '{player.Profile.Name}'");
+
+            if (ColorblindPreferences.isSteamNameSelected()) {
+                return player.Username.Substring(0, 2);
+            } else if (player.Profile.Name == null || "New chef".Equals(player.Profile.Name)) {
+                return (player.Index + 1).ToString();
+            }
+            return player.Profile.Name.Substring(0, 2);
         }
     }
 }

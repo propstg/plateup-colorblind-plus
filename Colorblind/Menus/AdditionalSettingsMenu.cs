@@ -15,13 +15,15 @@ namespace Colorblind.Menus {
         private static readonly List<string> displayStyleLabels = new List<string> { "Compressed", "Expanded" };
         private static readonly List<int> iceCreamLabelValues = new List<int> { (int)IceCreamLabels.CSV, (int)IceCreamLabels.SCV, (int)IceCreamLabels.VCS };
         private static readonly List<string> iceCreamLabelLabels = new List<string> { "CSV", "SCV", "VCS" };
+        private static readonly List<int> nameStyleValues = new List<int> { ColorblindPreferences.STEAM_NAME, ColorblindPreferences.PROFILE_NAME };
+        private static readonly List<string> nameStyleLabels = new List<string> { "Steam Name", "Profile Name" };
 
         public AdditionalSettingsMenu(Transform container, ModuleList module_list) : base(container, module_list) {}
 
         public override void Setup(int _) {
             addDisplayStyle();
             addIceCreamLabelOrder();
-            addBool("Ready Check - Names", ColorblindPreferences.NamesInsteadOfChecks);
+            addReadyCheckSection();
             New<SpacerElement>();
             AddInfo("Note: Changes made here will only take place after a game restart.");
             New<SpacerElement>();
@@ -54,6 +56,26 @@ namespace Colorblind.Menus {
             option.OnChanged += delegate (object _, int value) {
                 ColorblindPreferences.setIceCreamLabelStyle((IceCreamLabels) value);
             };
+        }
+
+        private void addReadyCheckSection() {
+            if (ReadyCheckNamesUtil.isReadyCheckNamesInstalled) {
+                addDisabledReadyCheckSection();
+                return;
+            }
+
+            Option<int> option = new Option<int>(nameStyleValues, ColorblindPreferences.getNameStyle(), nameStyleLabels);
+            addBool("Ready Check - Names", ColorblindPreferences.NamesInsteadOfChecks);
+            AddLabel("Name Style");
+            AddSelect(option);
+            option.OnChanged += delegate (object _, int value) {
+                ColorblindPreferences.setNameStyle(value);
+            };
+        }
+
+        private void addDisabledReadyCheckSection() {
+            AddLabel("Ready Check - Names");
+            AddInfo("You have Ready Check Names installed. Name checking feature will be handled by that mod.");
         }
     }
 }

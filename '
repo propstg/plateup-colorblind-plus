@@ -1,4 +1,4 @@
-﻿using KitchenLib.Colorblind;
+using KitchenLib.Colorblind;
 using KitchenLib.References;
 using System;
 
@@ -95,7 +95,6 @@ namespace Colorblind.Labels {
                 createLabel(ItemReferences.TomatoChopped, BaseLabels.SteakTomato),
                 createLabel(ItemReferences.MushroomChopped, BaseLabels.SteakMushroom),
                 createLabel(ItemReferences.BambooCookedContainerCooked, BaseLabels.Bamboo),
-                createLabel(ItemReferences.BambooCooked, BaseLabels.Bamboo),
             };
         }
 
@@ -110,7 +109,7 @@ namespace Colorblind.Labels {
             return new ItemLabel[] {
                 createLabel(ItemReferences.CookedDumplings, BaseLabels.Dumplings),
                 createLabel(ItemReferences.SeaweedCooked, BaseLabels.Seaweed),
-                createLabel(ItemReferences.BambooCooked, BaseLabels.Bamboo),
+                createLabel(ItemReferences.BambooCookedContainerCooked, BaseLabels.Bamboo),
             };
         }
     }

@@ -5,6 +5,9 @@ namespace Colorblind.Settings {
 
     public class ColorblindPreferences {
 
+        public static readonly int STEAM_NAME = 0;
+        public static readonly int PROFILE_NAME = 1;
+
         public static readonly Pref ShowStirFryLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowStirFryLabels));
         public static readonly Pref ShowTurkeyLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowTurkeyLabels));
         public static readonly Pref ShowStandaloneLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowStandaloneLabels));
@@ -22,6 +25,7 @@ namespace Colorblind.Settings {
         public static readonly Pref FontWideShadow = new Pref(ColorblindMod.MOD_ID, nameof(FontWideShadow));
         public static readonly Pref FontVerticalOffset = new Pref(ColorblindMod.MOD_ID, nameof(FontVerticalOffset));
         public static readonly Pref NamesInsteadOfChecks = new Pref(ColorblindMod.MOD_ID, nameof(NamesInsteadOfChecks));
+        public static readonly Pref NameStyle = new Pref(ColorblindMod.MOD_ID, nameof(NameStyle));
 
         public static void registerPreferences() {
             addBoolPreference(ShowStirFryLabels, false);
@@ -40,9 +44,9 @@ namespace Colorblind.Settings {
             addBoolPreference(FontWideShadow);
             Preferences.AddPreference<float>(new FloatPreference(FontVerticalOffset, 0f));
             addBoolPreference(NamesInsteadOfChecks);
+            Preferences.AddPreference<int>(new IntPreference(NameStyle, STEAM_NAME));
             Preferences.Load();
 
-            setBool(ShowStirFryLabels, false);
             setBool(ShowTurkeyLabels, false);
             migrateIceCreamLabelPreferenceIfNotSet();
         }
@@ -103,6 +107,18 @@ namespace Colorblind.Settings {
 
         public static void setIceCreamLabelStyle(IceCreamLabels value) {
             Preferences.Set<int>(IceCreamLabelOrdering, (int) value);
+        }
+
+        public static int getNameStyle() {
+            return Preferences.Get<int>(NameStyle);
+        }
+
+        public static void setNameStyle(int value) {
+            Preferences.Set<int>(NameStyle, value);
+        }
+        
+        public static bool isSteamNameSelected() {
+            return getNameStyle() == STEAM_NAME;
         }
     }
 }

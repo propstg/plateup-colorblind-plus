@@ -9,6 +9,7 @@
         public static readonly VariableLabel SteakThin = new VariableLabel("Tn", "N");
         public static readonly VariableLabel Welldone = new VariableLabel("-W\n", "W");
 
+        public static readonly VariableLabel Bamboo = new VariableLabel("Ba");
         public static readonly VariableLabel Breadcrumbs = new VariableLabel("Bcrumb");
         public static readonly VariableLabel Broccoli = new VariableLabel("B");
         public static readonly VariableLabel BroccoliSide = new VariableLabel("-b");
