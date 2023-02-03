@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorblindService.cs" />
+    <Compile Include="ToggleLabelsSystem.cs" />
     <Compile Include="ReadyCheckPatches.cs" />
     <Compile Include="Labels\ColourBlindLabelCreator.cs" />
     <Compile Include="Labels\BaseLabels.cs" />

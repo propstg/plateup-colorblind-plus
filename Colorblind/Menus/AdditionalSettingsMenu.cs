@@ -24,6 +24,7 @@ namespace Colorblind.Menus {
             addDisplayStyle();
             addIceCreamLabelOrder();
             addReadyCheckSection();
+            addBool("Press Ready to Toggle Labels", ColorblindPreferences.ToggleLabelsWithButtonPress);
             New<SpacerElement>();
             AddInfo("Note: Changes made here will only take place after a game restart.");
             New<SpacerElement>();

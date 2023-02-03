@@ -16,7 +16,7 @@ namespace Colorblind {
         public const string MOD_ID = "blargle.ColorblindPlus";
         public const string MOD_NAME = "Colorblind+";
         public const string MOD_AUTHOR = "blargle";
-        public const string MOD_VERSION = "0.0.15";
+        public const string MOD_VERSION = "0.0.17";
 
         private ColorblindService service;
 

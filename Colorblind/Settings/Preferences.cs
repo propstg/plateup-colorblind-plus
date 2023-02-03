@@ -26,6 +26,7 @@ namespace Colorblind.Settings {
         public static readonly Pref FontVerticalOffset = new Pref(ColorblindMod.MOD_ID, nameof(FontVerticalOffset));
         public static readonly Pref NamesInsteadOfChecks = new Pref(ColorblindMod.MOD_ID, nameof(NamesInsteadOfChecks));
         public static readonly Pref NameStyle = new Pref(ColorblindMod.MOD_ID, nameof(NameStyle));
+        public static readonly Pref ToggleLabelsWithButtonPress = new Pref(ColorblindMod.MOD_ID, nameof(ToggleLabelsWithButtonPress));
 
         public static void registerPreferences() {
             addBoolPreference(ShowStirFryLabels, false);
@@ -45,6 +46,7 @@ namespace Colorblind.Settings {
             Preferences.AddPreference<float>(new FloatPreference(FontVerticalOffset, 0f));
             addBoolPreference(NamesInsteadOfChecks);
             Preferences.AddPreference<int>(new IntPreference(NameStyle, STEAM_NAME));
+            addBoolPreference(ToggleLabelsWithButtonPress, false);
             Preferences.Load();
 
             setBool(ShowTurkeyLabels, false);
