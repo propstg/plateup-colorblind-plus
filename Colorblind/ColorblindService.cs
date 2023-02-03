@@ -94,9 +94,14 @@ namespace Colorblind {
                     continue;
                 }
 
+                bool isModdedDish = GDOUtils.GetCustomGameDataObject(item.ID) != null;
+
                 List<GameObject> colourBlindChildren = findChildrenByName(item.Prefab, "Colour Blind");
                 foreach (GameObject colourBlindChild in colourBlindChildren) {
-                    colourBlindChild.transform.localPosition = offset;
+                    if (!isModdedDish) {
+                        colourBlindChild.transform.localPosition = offset;
+                    }
+
                     TextMeshPro textMeshPro = ColorblindUtils.getTextMeshProFromClonedObject(colourBlindChild);
                     textMeshPro.fontSize = fontSize;
                     textMeshPro.outlineWidth = outlineWidth;
