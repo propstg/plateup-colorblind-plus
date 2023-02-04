@@ -43,7 +43,7 @@ namespace Colorblind {
 
         public void setupColorblindFeatureForItems(List<int> itemIds, ItemLabel[] labels, Pref requiredPreference) {
             if (!ColorblindPreferences.isOn(requiredPreference)) {
-                Debug.Log($"{ColorblindMod.MOD_ID}] {nameof(requiredPreference)} is off. Not adding labels.");
+                log($"{nameof(requiredPreference)} is off. Not adding labels.");
                 return;
             }
 
@@ -55,7 +55,7 @@ namespace Colorblind {
 
         public void addSingleItemLabels(Dictionary<int, VariableLabel> labels, Pref requiredPreference) {
             if (!ColorblindPreferences.isOn(requiredPreference)) {
-                Debug.Log($"{ColorblindMod.MOD_ID}] {nameof(requiredPreference)} is off. Not adding labels.");
+                log($"{nameof(requiredPreference)} is off. Not adding labels.");
                 return;
             }
 
@@ -68,7 +68,7 @@ namespace Colorblind {
         public void setTextToBlankForAllColourBlindChildrenForItem(int itemId) {
             Item item = GameData.Main.Get<Item>(itemId);
             List<GameObject> colourBlindChildren = findChildrenByName(item.Prefab, "Colour Blind");
-            Debug.Log($"Found {colourBlindChildren.Count} Colour Blind children in {itemId}'s prefab");
+            log($"Found {colourBlindChildren.Count} Colour Blind children in {itemId}'s prefab");
             foreach (GameObject colourBlindChild in colourBlindChildren) {
                 ColorblindUtils.getTextMeshProFromClonedObject(colourBlindChild).text = "";
             }
@@ -86,7 +86,7 @@ namespace Colorblind {
             Color color = invertColors ? new Color(0, 0, 0, 1) : new Color(0.881f, 0.923f, 1f, 1f);
             Vector3 offset = new Vector3(0f, verticalOffset, 0f);
 
-            Debug.Log($"[{ColorblindMod.MOD_ID}] Font size = {fontSize}, invertColors = {invertColors}, wideShadow = {wideShadow}");
+            log($"Font size = {fontSize}, invertColors = {invertColors}, wideShadow = {wideShadow}");
 
             IEnumerable<Item> enumerable = GameData.Main.Get<Item>();
             foreach (Item item in enumerable) {
@@ -100,6 +100,11 @@ namespace Colorblind {
                 foreach (GameObject colourBlindChild in colourBlindChildren) {
                     if (!isModdedDish) {
                         colourBlindChild.transform.localPosition = offset;
+
+                        if (colourBlindChild.transform.localScale != new Vector3(1, 1, 1)) {
+                            log("Setting localScale back to 1 for " + item.name);
+                            colourBlindChild.transform.localScale = new Vector3(1, 1, 1);
+                        }
                     }
 
                     TextMeshPro textMeshPro = ColorblindUtils.getTextMeshProFromClonedObject(colourBlindChild);
@@ -128,32 +133,36 @@ namespace Colorblind {
         [System.Diagnostics.Conditional("DEBUG")]
         private void printExistingInfo() {
             foreach (Item item in GameData.Main.Get<Item>()) {
-                Debug.Log("------------------------------------------------------------");
-                Debug.Log(item.ID);
-                Debug.Log(item.ToString());
+                log("------------------------------------------------------------");
+                log(item.ID);
+                log(item.ToString());
 
                 if (item.Prefab == null) {
-                    Debug.Log("Prefab is null.");
+                    log("Prefab is null.");
                     continue;
                 }
-                Debug.Log(item.Prefab);
+                log(item.Prefab);
 
                 ItemGroupView itemGroupView = item.Prefab.GetComponent<ItemGroupView>();
                 if (itemGroupView == null) {
-                    Debug.Log("No ItemGroupView component.");
+                    log("No ItemGroupView component.");
                     continue;
                 }
-                Debug.Log(itemGroupView);
+                log(itemGroupView);
 
                 IEnumerable colorblindLabels = (IEnumerable)itemGroupView_componentLabels.GetValue(itemGroupView);
                 if (colorblindLabels == null) {
-                    Debug.Log("No colorblind labels.");
+                    log("No colorblind labels.");
                     continue;
                 }
                 foreach (var label in colorblindLabels) {
-                    Debug.Log($"Found color blind label '{colourblindLabel_text.GetValue(label)}' for item {((Item)colourblindLabel_item.GetValue(label)).ID}");
+                    log($"Found color blind label '{colourblindLabel_text.GetValue(label)}' for item {((Item)colourblindLabel_item.GetValue(label)).ID}");
                 }
             }
+        }
+
+        private void log(object message) {
+            Debug.Log($"[{ColorblindMod.MOD_ID}] {message}");
         }
     }
 }
