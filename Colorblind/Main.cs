@@ -75,6 +75,12 @@ namespace Colorblind {
             service.setupColorblindFeatureForItems(new List<int> { ItemReferences.SaladPlated },
                 ColourBlindLabelCreator.createSaladLabels(),
                 ColorblindPreferences.ShowSaladLabels);
+            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.SaladApplePlated },
+                ColourBlindLabelCreator.createAppleSaladLabels(),
+                ColorblindPreferences.ShowSaladLabels);
+            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.SaladPotatoPlated },
+                ColourBlindLabelCreator.createPotatoSaladLabels(),
+                ColorblindPreferences.ShowSaladLabels);
         }
 
         private void addLabelsToSteak() {

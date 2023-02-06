@@ -9,6 +9,7 @@
         public static readonly VariableLabel SteakThin = new VariableLabel("Tn", "N");
         public static readonly VariableLabel Welldone = new VariableLabel("-W\n", "W");
 
+        public static readonly VariableLabel Apple = new VariableLabel("A");
         public static readonly VariableLabel Bamboo = new VariableLabel("Ba");
         public static readonly VariableLabel Breadcrumbs = new VariableLabel("Bcrumb");
         public static readonly VariableLabel Broccoli = new VariableLabel("B");
@@ -23,11 +24,14 @@
         public static readonly VariableLabel IceCreamStrawberry = new VariableLabel("S");
         public static readonly VariableLabel IceCreamVanilla = new VariableLabel("V");
         public static readonly VariableLabel Lettuce = new VariableLabel("L");
+        public static readonly VariableLabel Nuts = new VariableLabel("N");
+        public static readonly VariableLabel Mayo = new VariableLabel("Ma");
         public static readonly VariableLabel Meat = new VariableLabel("Me");
         public static readonly VariableLabel Mushroom = new VariableLabel("Mu");
         public static readonly VariableLabel MushroomSauce = new VariableLabel("Ms", "M");
         public static readonly VariableLabel Olive = new VariableLabel("Ol");
         public static readonly VariableLabel Onion = new VariableLabel("O");
+        public static readonly VariableLabel Potato = new VariableLabel("P");
         public static readonly VariableLabel RedWineJus = new VariableLabel("J");
         public static readonly VariableLabel Seaweed = new VariableLabel("Sw");
         public static readonly VariableLabel SteakBoneMedium = new VariableLabel(SteakBone, Medium);

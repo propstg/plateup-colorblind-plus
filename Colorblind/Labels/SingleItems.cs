@@ -6,6 +6,8 @@ namespace Colorblind.Labels {
     public static class SingleItems {
 
         public static readonly Dictionary<int, VariableLabel> SINGLE_ITEM_LABELS = new Dictionary<int, VariableLabel>() {
+            { ItemReferences.Apple, BaseLabels.Apple },
+            { ItemReferences.AppleSlices, BaseLabels.Apple },
             { ItemReferences.Breadcrumbs, BaseLabels.Breadcrumbs },
             { ItemReferences.BroccoliChopped, BaseLabels.Broccoli },
             { ItemReferences.CarrotChopped, BaseLabels.Carrot },
@@ -13,8 +15,11 @@ namespace Colorblind.Labels {
             { ItemReferences.CranberriesChopped, BaseLabels.Cranberry },
             { ItemReferences.CranberrySauce, BaseLabels.CranberrySauce },
             { ItemReferences.LettuceChopped, BaseLabels.Lettuce },
+            { ItemReferences.Mayonnaise, BaseLabels.Mayo },
             { ItemReferences.MeatChopped, BaseLabels.Meat },
             { ItemReferences.MushroomChopped, BaseLabels.Mushroom },
+            { ItemReferences.NutsChopped, BaseLabels.Nuts },
+            { ItemReferences.NutsIngredient, BaseLabels.Nuts },
             { ItemReferences.Olive, BaseLabels.Olive },
             { ItemReferences.OnionChopped, BaseLabels.Onion },
             { ItemReferences.Seaweed, BaseLabels.Seaweed },

@@ -113,5 +113,22 @@ namespace Colorblind.Labels {
                 createLabel(ItemReferences.BambooCooked, BaseLabels.Bamboo),
             };
         }
+
+        public static ItemLabel[] createAppleSaladLabels() {
+            return new ItemLabel[] {
+                createLabel(ItemReferences.AppleSlices, BaseLabels.Apple),
+                createLabel(ItemReferences.LettuceChopped, BaseLabels.Lettuce),
+                createLabel(ItemReferences.Mayonnaise, BaseLabels.Mayo),
+                createLabel(ItemReferences.NutsIngredient, BaseLabels.Nuts),
+            };
+        }
+
+        public static ItemLabel[] createPotatoSaladLabels() {
+            return new ItemLabel[] {
+                createLabel(ItemReferences.PotatoChoppedCooked, BaseLabels.Potato),
+                createLabel(ItemReferences.Mayonnaise, BaseLabels.Mayo),
+                createLabel(ItemReferences.OnionChopped, BaseLabels.Onion),
+            };
+        }
     }
 }
