@@ -15,8 +15,8 @@ namespace Colorblind.Menus {
         private static readonly List<string> displayStyleLabels = new List<string> { "Compressed", "Expanded" };
         private static readonly List<int> iceCreamLabelValues = new List<int> { (int)IceCreamLabels.CSV, (int)IceCreamLabels.SCV, (int)IceCreamLabels.VCS };
         private static readonly List<string> iceCreamLabelLabels = new List<string> { "CSV", "SCV", "VCS" };
-        private static readonly List<int> nameStyleValues = new List<int> { ColorblindPreferences.STEAM_NAME, ColorblindPreferences.PROFILE_NAME };
-        private static readonly List<string> nameStyleLabels = new List<string> { "Steam Name", "Profile Name" };
+        private static readonly List<int> nameStyleValues = new List<int> { ColorblindPreferences.STEAM_NAME, ColorblindPreferences.PROFILE_NAME, ColorblindPreferences.NUMBERS_ONLY };
+        private static readonly List<string> nameStyleLabels = new List<string> { "Steam Name", "Profile Name", "Numbers Only" };
 
         public AdditionalSettingsMenu(Transform container, ModuleList module_list) : base(container, module_list) {}
 

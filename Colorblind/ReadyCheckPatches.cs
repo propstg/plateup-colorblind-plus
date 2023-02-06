@@ -62,7 +62,7 @@ namespace Colorblind {
 
             if (ColorblindPreferences.isSteamNameSelected()) {
                 return player.Username.Substring(0, 2);
-            } else if (player.Profile.Name == null || "New chef".Equals(player.Profile.Name)) {
+            } else if (player.Profile.Name == null || "New chef".Equals(player.Profile.Name) || ColorblindPreferences.getNameStyle() == ColorblindPreferences.NUMBERS_ONLY) {
                 return (player.Index + 1).ToString();
             }
             return player.Profile.Name.Substring(0, 2);
