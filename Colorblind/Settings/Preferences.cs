@@ -1,5 +1,4 @@
 ﻿using Kitchen;
-using System;
 
 namespace Colorblind.Settings {
 
@@ -28,6 +27,7 @@ namespace Colorblind.Settings {
         public static readonly Pref NamesInsteadOfChecks = new Pref(ColorblindMod.MOD_ID, nameof(NamesInsteadOfChecks));
         public static readonly Pref NameStyle = new Pref(ColorblindMod.MOD_ID, nameof(NameStyle));
         public static readonly Pref ToggleLabelsWithButtonPress = new Pref(ColorblindMod.MOD_ID, nameof(ToggleLabelsWithButtonPress));
+        public static readonly Pref CustomerNameVerticalOffset = new Pref(ColorblindMod.MOD_ID, nameof(CustomerNameVerticalOffset));
 
         public static void registerPreferences() {
             addBoolPreference(ShowStirFryLabels, false);
@@ -48,6 +48,7 @@ namespace Colorblind.Settings {
             addBoolPreference(NamesInsteadOfChecks);
             Preferences.AddPreference<int>(new IntPreference(NameStyle, STEAM_NAME));
             addBoolPreference(ToggleLabelsWithButtonPress, false);
+            Preferences.AddPreference<float>(new FloatPreference(CustomerNameVerticalOffset, 0.2f));
             Preferences.Load();
 
             setBool(ShowTurkeyLabels, false);

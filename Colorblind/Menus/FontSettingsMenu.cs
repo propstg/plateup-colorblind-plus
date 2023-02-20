@@ -27,6 +27,7 @@ namespace Colorblind.Menus {
             addBool("Invert Colors", ColorblindPreferences.FontInvertColors);
             addBool("Wide Shadow", ColorblindPreferences.FontWideShadow);
             addFloat("Vertical Offset", fontVerticalOffsetValues, fontVerticalOffsetLabels, ColorblindPreferences.FontVerticalOffset);
+            addFloat("Customer Name Offset (when seated)", fontVerticalOffsetValues, fontVerticalOffsetLabels, ColorblindPreferences.CustomerNameVerticalOffset);
             New<SpacerElement>();
             AddInfo("These settings do not require a restart, but it might be best to change between days. Not all settings will apply until a new label is created or an existing one is updated.");
             New<SpacerElement>();
@@ -50,6 +51,7 @@ namespace Colorblind.Menus {
             option.OnChanged += delegate (object _, float value) {
                 ColorblindPreferences.setFloat(pref, value);
                 colorblindService.updateLabelStyles();
+                CustomerView_Update_Patch.verticalOffset = ColorblindPreferences.getFloat(ColorblindPreferences.CustomerNameVerticalOffset);
             };
         }
     }

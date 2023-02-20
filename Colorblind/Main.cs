@@ -16,15 +16,16 @@ namespace Colorblind {
         public const string MOD_ID = "blargle.ColorblindPlus";
         public const string MOD_NAME = "Colorblind+";
         public const string MOD_AUTHOR = "blargle";
-        public const string MOD_VERSION = "0.0.19";
+        public const string MOD_VERSION = "0.0.20";
 
         private ColorblindService service;
 
-        public ColorblindMod() : base(MOD_ID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, ">=1.1.3", Assembly.GetExecutingAssembly()) { }
+        public ColorblindMod() : base(MOD_ID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, ">=1.1.4", Assembly.GetExecutingAssembly()) { }
 
         protected override void OnInitialise() {
             ColorblindPreferences.registerPreferences();
             initMenus();
+            CustomerView_Update_Patch.verticalOffset = ColorblindPreferences.getFloat(ColorblindPreferences.CustomerNameVerticalOffset);
 
             Events.BuildGameDataEvent += delegate (object s, BuildGameDataEventArgs args) {
                 service = new ColorblindService();
@@ -40,6 +41,16 @@ namespace Colorblind {
                 service.addSingleItemLabels(SingleItems.SINGLE_ITEM_LABELS, ColorblindPreferences.ShowStandaloneLabels);
                 service.updateLabelStyles();
             };
+        }
+
+        protected override void OnUpdate() {
+            addTwitchNamesToCustomersForTesting();
+        }
+
+        [System.Diagnostics.Conditional("DEBUG")]
+        private void addTwitchNamesToCustomersForTesting() {
+            var twitchNameList = World.GetExistingSystem<TwitchNameList>();
+            twitchNameList.AddData("Test");
         }
 
         private void setupConsentElementUpdateTicksOverridePatch() {

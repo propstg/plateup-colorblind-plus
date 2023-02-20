@@ -117,7 +117,7 @@ namespace Colorblind {
             }
         }
 
-        private List<GameObject> findChildrenByName(GameObject parent, string name) {
+        public List<GameObject> findChildrenByName(GameObject parent, string name) {
             List<GameObject> children = new List<GameObject>();
             foreach (Transform child in parent.transform) {
                 if (child.name == name) {

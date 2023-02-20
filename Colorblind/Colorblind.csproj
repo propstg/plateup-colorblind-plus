@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>E:\Steam\steamapps\workshop\content\1599600\2898033283\0Harmony.dll</HintPath>
-    </Reference>
     <Reference Include="Kitchen.Common">
       <HintPath>E:\Steam\steamapps\common\PlateUp\PlateUp\PlateUp_Data\Managed\Kitchen.Common.dll</HintPath>
     </Reference>
@@ -104,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorblindService.cs" />
+    <Compile Include="CustomerNamePatches.cs" />
     <Compile Include="ToggleLabelsSystem.cs" />
     <Compile Include="ReadyCheckPatches.cs" />
     <Compile Include="Labels\ColourBlindLabelCreator.cs" />
