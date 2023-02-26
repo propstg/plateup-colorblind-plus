@@ -1,4 +1,4 @@
-import {html, css, LitElement} from 'lit';
+import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
 
 export class ColorblindApp extends LitElement {
     static styles = css`
