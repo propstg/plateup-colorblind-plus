@@ -1,7 +1,14 @@
 import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
 
 export class ColorblindApp extends LitElement {
+
     static styles = css`
+        * {
+            color: #fff;
+        }
+        button, input, textarea {
+            background-color: #464862;
+        }
         .hidden { display: none; }
     `;
 
@@ -59,7 +66,7 @@ export class ColorblindApp extends LitElement {
     deselectAllVisible() {
         this.values = this.values.map(item => {
             if (item.visible) {
-                item.selected = true;
+                item.selected = false;
             }
             return item;
         });
@@ -101,7 +108,10 @@ export class ColorblindApp extends LitElement {
                     <label for="#item${index}">${item.name}</label>
                 </div>
             `)}
-            <textarea>CB+OFF---${this.values.filter(item => item.selected).map(item => item.id).join(",")}</textarea>
+            <div>
+                <p>Select all, copy, and use the paste button in the game menu</p>
+                <textarea>CB+OFF---${this.values.filter(item => item.selected).map(item => item.id).join(",")}</textarea>
+            </div>
         `;
     }
 }
