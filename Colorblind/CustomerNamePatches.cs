@@ -13,6 +13,10 @@ namespace Colorblind {
 
         public static void Postfix(PlayerView __instance, CustomerView.ViewData ___Data) {
             GameObject nameContainer = GameObjectUtils.GetChildObject(__instance.gameObject, "Name Container");
+            if (nameContainer == null) {
+                return;
+            }
+
             if (___Data.State == CCustomerState.State.AtTable) {
                 nameContainer.transform.localPosition = new Vector3(0, DEFAULT_Y + verticalOffset, 0);
             } else {

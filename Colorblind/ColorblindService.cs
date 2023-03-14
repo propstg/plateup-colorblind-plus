@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Colorblind {
 
@@ -126,6 +127,16 @@ namespace Colorblind {
                 children.AddRange(findChildrenByName(child.gameObject, name));
             }
             return children;
+        }
+
+        public void setWeirdFishLabel(int fishId, string fishName, string fishLabel) {
+            var plated = GameData.Main.Get<Item>(fishId);
+            List<GameObject> gameObjects = findChildrenByName(plated.Prefab, fishName);
+            GameObject gameObject = Object.Instantiate(existingColourblindChild);
+            gameObject.name = "Colour Blind";
+            gameObject.transform.SetParent(gameObjects[0].transform);
+            gameObject.transform.localPosition = new Vector3(0f, 0f, 0f);
+            ColorblindUtils.getTextMeshProFromClonedObject(gameObject).text = fishLabel;
         }
 
         public TMP_FontAsset getFontFromTextMeshPro() => ColorblindUtils.getTextMeshProFromClonedObject(existingColourblindChild).font;

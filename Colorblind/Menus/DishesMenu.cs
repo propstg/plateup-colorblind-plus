@@ -16,13 +16,14 @@ namespace Colorblind.Menus {
 
         public override void Setup(int _) {
             AddInfo("Toggle dishes that you want to see additional labels on and off. Turning them off will allow the game's normal labels to display, if any exist for that dish.");
-            AddLabel("Stir Fry - Added to the base game!");
-            AddLabel("Turkey - Added to the base game!");
+            AddLabel("Stir Fry and Turkey - Added to the base game!");
             addBool("Burgers", ColorblindPreferences.ShowBurgerLabels);
             addBool("Pizza", ColorblindPreferences.ShowPizzaLabels);
             addBool("Salad", ColorblindPreferences.ShowSaladLabels);
             addBool("Steak", ColorblindPreferences.ShowSteakLabels);
             addBool("Dumplings", ColorblindPreferences.ShowDumplingLabels);
+            addBool("Breakfast", ColorblindPreferences.ShowBreakfastLabels);
+            //addBool("Additional Fish Labels", ColorblindPreferences.ShowAdditionalFishLabels);
             addBool("Standalone Ingredients", ColorblindPreferences.ShowStandaloneLabels);
             AddInfo("Note: Changes made here will only take place after a game restart.");
             New<SpacerElement>();

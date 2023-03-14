@@ -12,6 +12,7 @@ namespace Colorblind.Menus {
             AddSubmenuButton("Dishes", typeof(DishesMenu<T>));
             AddSubmenuButton("Font Settings", typeof(FontSettingsMenu<T>));
             AddSubmenuButton("Additional Settings", typeof(AdditionalSettingsMenu<T>));
+            AddSubmenuButton("Experimental", typeof(ExperimentalMenu<T>));
             New<SpacerElement>();
             New<SpacerElement>();
             AddButton(Localisation["MENU_BACK_SETTINGS"], delegate { RequestPreviousMenu(); });

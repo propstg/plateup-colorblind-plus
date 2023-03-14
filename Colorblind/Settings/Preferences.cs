@@ -16,6 +16,8 @@ namespace Colorblind.Settings {
         public static readonly Pref ShowSaladLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowSaladLabels));
         public static readonly Pref ShowSteakLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowSteakLabels));
         public static readonly Pref ShowDumplingLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowDumplingLabels));
+        public static readonly Pref ShowBreakfastLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowBreakfastLabels));
+        public static readonly Pref ShowAdditionalFishLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowAdditionalFishLabels));
         public static readonly Pref ReorderIceCreamLabels = new Pref(ColorblindMod.MOD_ID, nameof(ReorderIceCreamLabels));
         public static readonly Pref IceCreamLabelOrdering = new Pref(ColorblindMod.MOD_ID, nameof(IceCreamLabelOrdering));
 
@@ -28,6 +30,7 @@ namespace Colorblind.Settings {
         public static readonly Pref NameStyle = new Pref(ColorblindMod.MOD_ID, nameof(NameStyle));
         public static readonly Pref ToggleLabelsWithButtonPress = new Pref(ColorblindMod.MOD_ID, nameof(ToggleLabelsWithButtonPress));
         public static readonly Pref CustomerNameVerticalOffset = new Pref(ColorblindMod.MOD_ID, nameof(CustomerNameVerticalOffset));
+        public static readonly Pref ItemBlacklist = new Pref(ColorblindMod.MOD_ID, nameof(ItemBlacklist));
 
         public static void registerPreferences() {
             addBoolPreference(ShowStirFryLabels, false);
@@ -38,6 +41,8 @@ namespace Colorblind.Settings {
             addBoolPreference(ShowSaladLabels);
             addBoolPreference(ShowSteakLabels);
             addBoolPreference(ShowDumplingLabels);
+            addBoolPreference(ShowBreakfastLabels);
+            addBoolPreference(ShowAdditionalFishLabels);
             addBoolPreference(ReorderIceCreamLabels);
             Preferences.AddPreference<int>(new IntPreference(IceCreamLabelOrdering, (int)IceCreamLabels.NOT_SET));
             Preferences.AddPreference<int>(new IntPreference(DisplayStyle, (int)DisplayStyles.EXPANDED));
@@ -49,6 +54,7 @@ namespace Colorblind.Settings {
             Preferences.AddPreference<int>(new IntPreference(NameStyle, STEAM_NAME));
             addBoolPreference(ToggleLabelsWithButtonPress, false);
             Preferences.AddPreference<float>(new FloatPreference(CustomerNameVerticalOffset, 0.2f));
+            Preferences.AddPreference<string>(new StringPreference(ItemBlacklist, ""));
             Preferences.Load();
 
             setBool(ShowTurkeyLabels, false);
@@ -123,6 +129,14 @@ namespace Colorblind.Settings {
         
         public static bool isSteamNameSelected() {
             return getNameStyle() == STEAM_NAME;
+        }
+
+        public static string getString(Pref pref) {
+            return Preferences.Get<string>(pref);
+        }
+
+        public static void setString(Pref pref, string value) {
+            Preferences.Set<string>(pref, value);
         }
     }
 }

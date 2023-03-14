@@ -100,8 +100,11 @@
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlacklistItemSystem.cs" />
     <Compile Include="ColorblindService.cs" />
     <Compile Include="CustomerNamePatches.cs" />
+    <Compile Include="Menus\ExperimentalMenu.cs" />
+    <Compile Include="Settings\StringPreference.cs" />
     <Compile Include="ToggleLabelsSystem.cs" />
     <Compile Include="ReadyCheckPatches.cs" />
     <Compile Include="Labels\ColourBlindLabelCreator.cs" />

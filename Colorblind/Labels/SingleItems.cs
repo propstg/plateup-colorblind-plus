@@ -53,5 +53,13 @@ namespace Colorblind.Labels {
             { ItemReferences.CookedDumplings, BaseLabels.Dumplings },
             { ItemReferences.PreparedDumplings, BaseLabels.Dumplings },
         };
+
+        public static readonly Dictionary<int, VariableLabel> BREAKFAST_SINGLE_ITEM_LABELS = new Dictionary<int, VariableLabel>() {
+            { ItemReferences.BeansRawPot, BaseLabels.Beans },
+            { ItemReferences.BeansServing, BaseLabels.Beans },
+            { ItemReferences.Egg, BaseLabels.Egg },
+            { ItemReferences.EggCooked, BaseLabels.Egg },
+            { ItemReferences.EggCracked, BaseLabels.Egg },
+        };
     }
 }

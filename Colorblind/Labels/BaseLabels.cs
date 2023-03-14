@@ -11,6 +11,7 @@
 
         public static readonly VariableLabel Apple = new VariableLabel("A");
         public static readonly VariableLabel Bamboo = new VariableLabel("Ba");
+        public static readonly VariableLabel Beans = new VariableLabel("Be");
         public static readonly VariableLabel Breadcrumbs = new VariableLabel("Bcrumb");
         public static readonly VariableLabel Broccoli = new VariableLabel("B");
         public static readonly VariableLabel BroccoliSide = new VariableLabel("-b");
@@ -19,6 +20,7 @@
         public static readonly VariableLabel Cranberry = new VariableLabel("Cr");
         public static readonly VariableLabel CranberrySauce = new VariableLabel("Csauce", "Cs");
         public static readonly VariableLabel Dumplings = new VariableLabel("MeC");
+        public static readonly VariableLabel Egg = new VariableLabel("E");
         public static readonly VariableLabel Gravy = new VariableLabel("G");
         public static readonly VariableLabel IceCreamChocolate = new VariableLabel("C");
         public static readonly VariableLabel IceCreamStrawberry = new VariableLabel("S");

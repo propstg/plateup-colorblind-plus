@@ -16,7 +16,7 @@ namespace Colorblind {
         public const string MOD_ID = "blargle.ColorblindPlus";
         public const string MOD_NAME = "Colorblind+";
         public const string MOD_AUTHOR = "blargle";
-        public const string MOD_VERSION = "0.0.20";
+        public const string MOD_VERSION = "0.0.21";
 
         private ColorblindService service;
 
@@ -37,6 +37,7 @@ namespace Colorblind {
                 addLabelsToSalad();
                 addLabelsToSteak();
                 addLabelsToDumplings();
+                addLabelsToBreakfast();
                 makeIceCreamOrderingConsistentWithAppliance();
                 service.addSingleItemLabels(SingleItems.SINGLE_ITEM_LABELS, ColorblindPreferences.ShowStandaloneLabels);
                 service.updateLabelStyles();
@@ -100,16 +101,6 @@ namespace Colorblind {
             service.addSingleItemLabels(SingleItems.STEAK_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowSteakLabels);
         }
 
-        private void addLabelsToDumplings() {
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.DumplingsRaw },
-                ColourBlindLabelCreator.createUncookedDumplingLabels(),
-                ColorblindPreferences.ShowDumplingLabels);
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.DumplingsPlated },
-                ColourBlindLabelCreator.createCookedDumplingsLabels(),
-                ColorblindPreferences.ShowDumplingLabels);
-            service.addSingleItemLabels(SingleItems.DUMPLING_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowDumplingLabels);
-        }
-
         private void clearExistingSteakLabels() {
             if (!ColorblindPreferences.isOn(ColorblindPreferences.ShowSteakLabels)) {
                 return;
@@ -122,6 +113,34 @@ namespace Colorblind {
                 ItemReferences.ThinSteakRare,ItemReferences.ThinSteakMedium,ItemReferences.ThinSteakWelldone
             }.ForEach(service.setTextToBlankForAllColourBlindChildrenForItem);
         }
+
+        private void addLabelsToDumplings() {
+            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.DumplingsRaw },
+                ColourBlindLabelCreator.createUncookedDumplingLabels(),
+                ColorblindPreferences.ShowDumplingLabels);
+            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.DumplingsPlated },
+                ColourBlindLabelCreator.createCookedDumplingsLabels(),
+                ColorblindPreferences.ShowDumplingLabels);
+            service.addSingleItemLabels(SingleItems.DUMPLING_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowDumplingLabels);
+        }
+
+        private void addLabelsToBreakfast() {
+            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.BreakfastPlated },
+                ColourBlindLabelCreator.createBreakfastLabels(),
+                ColorblindPreferences.ShowBreakfastLabels);
+            service.addSingleItemLabels(SingleItems.BREAKFAST_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowBreakfastLabels);
+        }
+
+        /*
+        private void addLabelsToFish() {
+            if (!ColorblindPreferences.isOn(ColorblindPreferences.ShowAdditionalFishLabels)) {
+                return;
+            }
+
+            service.setWeirdFishLabel(ItemReferences.FishSpinyPlated, "Spiny Fish - Cooked", "Sp");
+            service.setWeirdFishLabel(ItemReferences.FishSpinyRaw, "Spiny Fish - Cooked", "Sp");
+        }
+        */
 
         private void makeIceCreamOrderingConsistentWithAppliance() {
             switch (ColorblindPreferences.getIceCreamLabelStyle()) {
@@ -146,6 +165,7 @@ namespace Colorblind {
                 args.Menus.Add(typeof(AdditionalSettingsMenu<PauseMenuAction>), new AdditionalSettingsMenu<PauseMenuAction>(args.Container, args.Module_list));
                 args.Menus.Add(typeof(DishesMenu<PauseMenuAction>), new DishesMenu<PauseMenuAction>(args.Container, args.Module_list));
                 args.Menus.Add(typeof(FontSettingsMenu<PauseMenuAction>), new FontSettingsMenu<PauseMenuAction>(args.Container, args.Module_list, service));
+                args.Menus.Add(typeof(ExperimentalMenu<PauseMenuAction>), new ExperimentalMenu<PauseMenuAction>(args.Container, args.Module_list));
                 args.Menus.Add(typeof(MainMenu<PauseMenuAction>), new MainMenu<PauseMenuAction>(args.Container, args.Module_list));
             };
         }
