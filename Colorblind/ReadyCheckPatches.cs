@@ -58,8 +58,6 @@ namespace Colorblind {
         }
 
         private static string getName(PlayerInfo player) {
-            Debug.Log($"player.name: '{player.Name}', player.profileName: '{player.Profile.Name}'");
-
             if (ColorblindPreferences.isSteamNameSelected()) {
                 return player.Username.Substring(0, 2);
             } else if (player.Profile.Name == null || "New chef".Equals(player.Profile.Name) || ColorblindPreferences.getNameStyle() == ColorblindPreferences.NUMBERS_ONLY) {
