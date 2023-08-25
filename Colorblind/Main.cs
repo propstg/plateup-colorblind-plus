@@ -16,11 +16,11 @@ namespace Colorblind {
         public const string MOD_ID = "blargle.ColorblindPlus";
         public const string MOD_NAME = "Colorblind+";
         public const string MOD_AUTHOR = "blargle";
-        public const string MOD_VERSION = "0.0.21";
+        public const string MOD_VERSION = "0.0.22";
 
         private ColorblindService service;
 
-        public ColorblindMod() : base(MOD_ID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, ">=1.1.4", Assembly.GetExecutingAssembly()) { }
+        public ColorblindMod() : base(MOD_ID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, ">=1.1.5", Assembly.GetExecutingAssembly()) { }
 
         protected override void OnInitialise() {
             ColorblindPreferences.registerPreferences();

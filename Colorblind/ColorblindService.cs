@@ -37,7 +37,7 @@ namespace Colorblind {
         private void buildReflectionCache() {
             itemGroupView_componentLabels = ReflectionUtils.GetField<ItemGroupView>("ComponentLabels");
             Type itemGroupViewInfo = typeof(ItemGroupView);
-            Type colourBlindLabelType = itemGroupViewInfo.GetNestedType("ColourBlindLabel", BindingFlags.NonPublic);
+            Type colourBlindLabelType = typeof(ItemGroupView.ColourBlindLabel);
             colourblindLabel_text = colourBlindLabelType.GetField("Text");
             colourblindLabel_item = colourBlindLabelType.GetField("Item");
         }
