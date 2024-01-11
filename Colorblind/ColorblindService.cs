@@ -1,10 +1,9 @@
-﻿using Colorblind.Labels;
+﻿using Colorblind.Colorblind.References;
+using Colorblind.Labels;
 using Colorblind.Settings;
+using HarmonyLib;
 using Kitchen;
 using KitchenData;
-using KitchenLib.Colorblind;
-using KitchenLib.References;
-using KitchenLib.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,61 +17,99 @@ namespace Colorblind {
 
     public class ColorblindService {
 
+        private FieldInfo itemGroupView_colourblindLabel;
         private FieldInfo itemGroupView_componentLabels;
         private FieldInfo colourblindLabel_text;
         private FieldInfo colourblindLabel_item;
         private GameObject existingColourblindChild;
 
-        public ColorblindService() {
+        GameData gamedata;
+
+        public ColorblindService(GameData gamedata) {
+            this.gamedata = gamedata;
             buildReflectionCache();
-            getExistingColourBlindChildToCloneFromPie();
+            getExistingColourBlindChildToCloneFromPie(gamedata);
             printExistingInfo();
         }
 
-        private void getExistingColourBlindChildToCloneFromPie() {
-            Item item = GameData.Main.Get<Item>(ItemReferences.PieMeatCooked);
-            existingColourblindChild = GameObjectUtils.GetChildObject(item.Prefab, "Colour Blind");
-        }
-
         private void buildReflectionCache() {
-            itemGroupView_componentLabels = ReflectionUtils.GetField<ItemGroupView>("ComponentLabels");
+            itemGroupView_colourblindLabel = AccessTools.Field(typeof(ItemGroupView), "ColourblindLabel");
+            itemGroupView_componentLabels = AccessTools.Field(typeof(ItemGroupView), "ComponentLabels");
             Type itemGroupViewInfo = typeof(ItemGroupView);
             Type colourBlindLabelType = typeof(ItemGroupView.ColourBlindLabel);
             colourblindLabel_text = colourBlindLabelType.GetField("Text");
             colourblindLabel_item = colourBlindLabelType.GetField("Item");
         }
 
+        private void getExistingColourBlindChildToCloneFromPie(GameData gamedata) {
+            Item item = gamedata.Get<Item>(ItemReferences.PieMeatRaw);
+            existingColourblindChild = item.Prefab.transform.Find("Colour Blind").gameObject;
+        }
+
         public void setupColorblindFeatureForItems(List<int> itemIds, ItemLabel[] labels, Pref requiredPreference) {
             if (!ColorblindPreferences.isOn(requiredPreference)) {
-                log($"{nameof(requiredPreference)} is off. Not adding labels.");
+                ColorblindMod.Log($"{nameof(requiredPreference)} is off. Not adding labels.");
                 return;
             }
 
             itemIds.Select(itemId => new ItemLabelGroup {
                 itemId = itemId,
                 itemLabels = labels,
-            }).ToList().ForEach(ColorblindUtils.SetupColorBlindFeatureForItem);
+            }).ToList().ForEach(setupColorBlindFeatureForItem);
         }
 
         public void addSingleItemLabels(Dictionary<int, VariableLabel> labels, Pref requiredPreference) {
             if (!ColorblindPreferences.isOn(requiredPreference)) {
-                log($"{nameof(requiredPreference)} is off. Not adding labels.");
+                ColorblindMod.Log($"{nameof(requiredPreference)} is off. Not adding labels.");
                 return;
             }
 
             foreach (KeyValuePair<int, VariableLabel> entry in labels) {
-                ColorblindUtils.AddSingleItemLabels(new ItemLabel[] {
+                addSingleItemLabels(new ItemLabel[] {
                     new ItemLabel { itemId = entry.Key, label = entry.Value.ToString() }
                 });
             }
         }
-        public void setTextToBlankForAllColourBlindChildrenForItem(int itemId) {
-            Item item = GameData.Main.Get<Item>(itemId);
-            List<GameObject> colourBlindChildren = findChildrenByName(item.Prefab, "Colour Blind");
-            log($"Found {colourBlindChildren.Count} Colour Blind children in {itemId}'s prefab");
-            foreach (GameObject colourBlindChild in colourBlindChildren) {
-                ColorblindUtils.getTextMeshProFromClonedObject(colourBlindChild).text = "";
+
+        public void addSingleItemLabels(ItemLabel[] itemLabels) {
+            foreach (ItemLabel itemLabel in itemLabels) {
+                if (!gamedata.TryGet<Item>(itemLabel.itemId, out Item item)) {
+                    ColorblindMod.Log($"Error: Unable to find item for id {itemLabel.itemId}");
+                    continue;
+                }
+
+                GameObject clonedColourBlind = cloneColourBlindObjectAndAddToItem(item);
+                TextMeshPro textMeshProObject = getTextMeshProFromClonedObject(clonedColourBlind);
+                textMeshProObject.text = itemLabel.label;
             }
+        }
+
+        public void setupColorBlindFeatureForItem(ItemLabelGroup itemLabelGroup) {
+            Item item = gamedata.Get<Item>(itemLabelGroup.itemId);
+            ItemGroupView itemGroupView = item.Prefab.GetComponent<ItemGroupView>();
+            itemGroupView_componentLabels.SetValue(itemGroupView, ColourBlindLabelCreatorUtil.createLabelGroup(itemLabelGroup));
+
+            if (doesColourBlindChildExist(item)) {
+                ColorblindMod.Log($"{itemLabelGroup.itemId} already has a Colour Blind child.");
+                return;
+            }
+
+            GameObject clonedColourBlind = cloneColourBlindObjectAndAddToItem(item);
+            setColourBlindLabelObjectOnItemGroupView(itemGroupView, clonedColourBlind);
+        }
+
+        public void setTextToBlankForAllColourBlindChildrenForItem(int itemId) {
+            Item item = gamedata.Get<Item>(itemId);
+            List<GameObject> colourBlindChildren = findChildrenByName(item.Prefab, "Colour Blind");
+            ColorblindMod.Log($"Found {colourBlindChildren.Count} Colour Blind children in {itemId}'s prefab");
+            foreach (GameObject colourBlindChild in colourBlindChildren) {
+                getTextMeshProFromClonedObject(colourBlindChild).text = "";
+            }
+        }
+
+        private TextMeshPro getTextMeshProFromClonedObject(GameObject clonedColourBlind) {
+            GameObject titleChild = clonedColourBlind.transform.Find("Title").gameObject;
+            return titleChild.GetComponent<TextMeshPro>();
         }
 
         public void updateLabelStyles() {
@@ -87,15 +124,15 @@ namespace Colorblind {
             Color color = invertColors ? new Color(0, 0, 0, 1) : new Color(0.881f, 0.923f, 1f, 1f);
             Vector3 offset = new Vector3(0f, verticalOffset, 0f);
 
-            log($"Font size = {fontSize}, invertColors = {invertColors}, wideShadow = {wideShadow}");
+            ColorblindMod.Log($"Font size = {fontSize}, invertColors = {invertColors}, wideShadow = {wideShadow}");
 
-            IEnumerable<Item> enumerable = GameData.Main.Get<Item>();
+            IEnumerable<Item> enumerable = gamedata.Get<Item>();
             foreach (Item item in enumerable) {
                 if (item.Prefab == null) {
                     continue;
                 }
 
-                bool isModdedDish = GDOUtils.GetCustomGameDataObject(item.ID) != null;
+                bool isModdedDish = Enum.GetValues(typeof(_DishReferences)).Cast<_DishReferences>().Any(id => (int)id == item.ID);
 
                 List<GameObject> colourBlindChildren = findChildrenByName(item.Prefab, "Colour Blind");
                 foreach (GameObject colourBlindChild in colourBlindChildren) {
@@ -103,13 +140,14 @@ namespace Colorblind {
                         colourBlindChild.transform.localPosition = offset;
 
                         if (colourBlindChild.transform.localScale != new Vector3(1, 1, 1)) {
-                            log("Setting localScale back to 1 for " + item.name);
+                            ColorblindMod.Log("Setting localScale back to 1 for " + item.name);
                             colourBlindChild.transform.localScale = new Vector3(1, 1, 1);
                         }
                     }
 
-                    TextMeshPro textMeshPro = ColorblindUtils.getTextMeshProFromClonedObject(colourBlindChild);
+                    TextMeshPro textMeshPro = getTextMeshProFromClonedObject(colourBlindChild);
                     textMeshPro.fontSize = fontSize;
+                    textMeshPro.fontSizeMax = fontSize;
                     textMeshPro.outlineWidth = outlineWidth;
                     textMeshPro.fontStyle = fontStyle;
                     textMeshPro.outlineColor = outlineColor;
@@ -130,50 +168,67 @@ namespace Colorblind {
         }
 
         public void setWeirdFishLabel(int fishId, string fishName, string fishLabel) {
-            var plated = GameData.Main.Get<Item>(fishId);
+            var plated = gamedata.Get<Item>(fishId);
             List<GameObject> gameObjects = findChildrenByName(plated.Prefab, fishName);
             GameObject gameObject = Object.Instantiate(existingColourblindChild);
             gameObject.name = "Colour Blind";
             gameObject.transform.SetParent(gameObjects[0].transform);
             gameObject.transform.localPosition = new Vector3(0f, 0f, 0f);
-            ColorblindUtils.getTextMeshProFromClonedObject(gameObject).text = fishLabel;
+            getTextMeshProFromClonedObject(gameObject).text = fishLabel;
         }
 
-        public TMP_FontAsset getFontFromTextMeshPro() => ColorblindUtils.getTextMeshProFromClonedObject(existingColourblindChild).font;
+        public TMP_FontAsset getFontFromTextMeshPro() => getTextMeshProFromClonedObject(existingColourblindChild).font;
 
         [System.Diagnostics.Conditional("DEBUG")]
         private void printExistingInfo() {
-            foreach (Item item in GameData.Main.Get<Item>()) {
-                log("------------------------------------------------------------");
-                log(item.ID);
-                log(item.ToString());
+            foreach (Item item in gamedata.Get<Item>()) {
+                ColorblindMod.Log("------------------------------------------------------------");
+                ColorblindMod.Log(item.ID);
+                ColorblindMod.Log(item.ToString());
 
                 if (item.Prefab == null) {
-                    log("Prefab is null.");
+                    ColorblindMod.Log("Prefab is null.");
                     continue;
                 }
-                log(item.Prefab);
+                ColorblindMod.Log(item.Prefab);
 
                 ItemGroupView itemGroupView = item.Prefab.GetComponent<ItemGroupView>();
                 if (itemGroupView == null) {
-                    log("No ItemGroupView component.");
+                    ColorblindMod.Log("No ItemGroupView component.");
                     continue;
                 }
-                log(itemGroupView);
+                ColorblindMod.Log(itemGroupView);
 
                 IEnumerable colorblindLabels = (IEnumerable)itemGroupView_componentLabels.GetValue(itemGroupView);
                 if (colorblindLabels == null) {
-                    log("No colorblind labels.");
+                    ColorblindMod.Log("No colorblind labels.");
                     continue;
                 }
                 foreach (var label in colorblindLabels) {
-                    log($"Found color blind label '{colourblindLabel_text.GetValue(label)}' for item {((Item)colourblindLabel_item.GetValue(label)).ID}");
+                    ColorblindMod.Log($"Found color blind label '{colourblindLabel_text.GetValue(label)}' for item {((Item)colourblindLabel_item.GetValue(label)).ID}");
                 }
             }
         }
 
-        private void log(object message) {
-            Debug.Log($"[{ColorblindMod.MOD_ID}] {message}");
+        public bool doesColourBlindChildExist(Item item) {
+            return item.Prefab.transform.Find("Colour Blind") != null;
+        }
+
+        public GameObject cloneColourBlindObjectAndAddToItem(Item item) {
+            GameObject clonedColourBlind = Object.Instantiate(existingColourblindChild);
+            clonedColourBlind.transform.Find("Title").GetComponent<TextMeshPro>().text = "";
+            clonedColourBlind.name = "Colour Blind";
+            clonedColourBlind.transform.SetParent(item.Prefab.transform);
+            clonedColourBlind.transform.localPosition = new Vector3(0, 0, 0);
+            return clonedColourBlind;
+        }
+
+        public void setColourBlindLabelObjectOnItemGroupView(ItemGroupView itemGroupView, GameObject clonedColourBlind) {
+            if (itemGroupView_colourblindLabel.GetValue(itemGroupView) == null) {
+                TextMeshPro textMeshProObject = getTextMeshProFromClonedObject(clonedColourBlind);
+                textMeshProObject.text = "";
+                itemGroupView_colourblindLabel.SetValue(itemGroupView, textMeshProObject);
+            }
         }
     }
 }

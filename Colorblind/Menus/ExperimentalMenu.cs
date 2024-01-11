@@ -1,14 +1,14 @@
 ﻿using Colorblind.Settings;
+using Kitchen;
 using Kitchen.Modules;
 using KitchenData;
-using KitchenLib;
 using System;
 using System.Linq;
 using UnityEngine;
 
 namespace Colorblind.Menus {
 
-    public class ExperimentalMenu<T> : KLMenu<T> {
+    public class ExperimentalMenu : Menu<PauseMenuAction> {
 
         public ExperimentalMenu(Transform container, ModuleList module_list) : base(container, module_list) {}
 
@@ -18,8 +18,10 @@ namespace Colorblind.Menus {
             AddInfo("Use this feature to remove labels from modded dishes or vanilla items.");
             AddButton("1. Copy item data to clipboard", delegate { copyItemDataToClipboard(status); });
             AddInfo("2. Go to https://propstg.github.io/plateup-colorblind-plus/ and set up blacklist");
+            AddButton("2a. Open above URL in external browser", delegate { Application.OpenURL("https://propstg.github.io/plateup-colorblind-plus/"); });
             AddButton("3. Update blacklist from clipboard", delegate { updateBlacklistFromClipboard(status); });
             status = AddInfo("");
+            AddInfo("4. Restart your game for changes to take effect.");
 
             New<SpacerElement>();
             New<SpacerElement>();
@@ -49,11 +51,11 @@ namespace Colorblind.Menus {
             string[] itemsToIgnore = blacklistString.Split(',');
             bool allSuccessful = true;
             foreach (var itemToIgnore in itemsToIgnore) {
-                Debug.Log($"[{ColorblindMod.MOD_ID}] User requested to blacklist item {itemToIgnore}");
+                ColorblindMod.Log($"User requested to blacklist item {itemToIgnore}");
                 try {
                     Int32.Parse(itemToIgnore);
                 } catch (FormatException) {
-                    Debug.Log($"[{ColorblindMod.MOD_ID}] Error parsing item {itemToIgnore}--not a valid int");
+                    ColorblindMod.Log($"Error parsing item {itemToIgnore}--not a valid int");
                     status.SetLabel($"Error parsing item {itemToIgnore}--not a valid int");
                     allSuccessful = false;
                 }

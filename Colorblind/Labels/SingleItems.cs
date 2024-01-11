@@ -1,4 +1,4 @@
-﻿using KitchenLib.References;
+﻿using Colorblind.Colorblind.References;
 using System.Collections.Generic;
 
 namespace Colorblind.Labels {

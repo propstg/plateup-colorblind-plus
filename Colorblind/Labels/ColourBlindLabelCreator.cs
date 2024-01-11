@@ -1,8 +1,22 @@
-﻿using KitchenLib.Colorblind;
-using KitchenLib.References;
-using System;
+﻿using Colorblind.Colorblind.References;
+using Kitchen;
+using KitchenData;
+using System.Collections;
+using System.Linq;
 
 namespace Colorblind.Labels {
+
+    public class ColourBlindLabelCreatorUtil : ItemGroupView {
+
+        public static IEnumerable createLabelGroup(ItemLabelGroup itemLabels) {
+            return itemLabels.itemLabels.ToList()
+                .Select(createLabel).ToList();
+        }
+
+        private static ColourBlindLabel createLabel(ItemLabel label) {
+            return new ColourBlindLabel { Item = GameData.Main.Get<Item>(label.itemId), Text = label.label };
+        }
+    }
 
     public class ColourBlindLabelCreator {
 

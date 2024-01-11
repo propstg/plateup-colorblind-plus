@@ -2,7 +2,7 @@
 using HarmonyLib;
 using Kitchen;
 using Kitchen.Modules;
-using KitchenLib.Registry;
+using KitchenMods;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -48,7 +48,7 @@ namespace Colorblind {
 
     class ReadyCheckNamesUtil {
 
-        public static bool isReadyCheckNamesInstalled => ModRegistery.Registered.Any(entry => entry.Value.ModID == "blargle.ReadyCheckNames");
+        public static bool isReadyCheckNamesInstalled => ModPreload.Mods.Any(mod => mod.Name == "Ready Check Names");
         public static bool shouldSkipPostfix => isReadyCheckNamesInstalled || !ColorblindPreferences.isOn(ColorblindPreferences.NamesInsteadOfChecks);
 
         public static string createPlayerNameString(int playerId) {

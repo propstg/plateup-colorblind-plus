@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using Kitchen;
-using KitchenLib.Utils;
 using UnityEngine;
 
 namespace Colorblind {
@@ -12,7 +11,7 @@ namespace Colorblind {
         public static float verticalOffset = 0f;
 
         public static void Postfix(PlayerView __instance, CustomerView.ViewData ___Data) {
-            GameObject nameContainer = GameObjectUtils.GetChildObject(__instance.gameObject, "Name Container");
+            GameObject nameContainer = __instance.gameObject?.transform?.Find("Name Container")?.gameObject;
             if (nameContainer == null) {
                 return;
             }

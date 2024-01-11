@@ -1,18 +1,17 @@
 ﻿using Colorblind.Settings;
 using Kitchen;
 using Kitchen.Modules;
-using KitchenLib;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Colorblind.Menus {
 
-    public class FontSettingsMenu<T> : KLMenu<T> {
+    public class FontSettingsMenu : Menu<PauseMenuAction> {
 
         private static readonly List<bool> boolValues = new List<bool> { false, true };
         private static readonly List<string> boolLabels = new List<string> { "Off", "On" };
-        private static readonly List<float> fontSizeValues = new List<float> {1.5f, 2.0f, 2.5f};
-        private static readonly List<string> fontSizeLabels = new List<string> {"Small", "Normal", "Large"};
+        private static readonly List<float> fontSizeValues = new List<float> {1.5f, 2.0f, 2.5f, 3.0f, 3.5f};
+        private static readonly List<string> fontSizeLabels = new List<string> {"Small", "Default", "Large", "XL", "Perhaps too large"};
         private static readonly List<float> fontVerticalOffsetValues = new List<float> {0.3f, 0.2f, 0.1f, 0f, -0.1f, -0.2f, -0.3f};
         private static readonly List<string> fontVerticalOffsetLabels = new List<string> {"-0.3", "-0.2", "-0.1", "0", "0.1", "0.2", "0.3"};
 

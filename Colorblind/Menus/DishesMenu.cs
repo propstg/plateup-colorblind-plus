@@ -1,13 +1,12 @@
 ﻿using Colorblind.Settings;
 using Kitchen;
 using Kitchen.Modules;
-using KitchenLib;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Colorblind.Menus {
 
-    public class DishesMenu<T> : KLMenu<T> {
+    public class DishesMenu : Menu<PauseMenuAction> {
 
         private static readonly List<bool> boolValues = new List<bool> { false, true };
         private static readonly List<string> boolLabels = new List<string> { "Normal Game Labels (if present)", "On" };
