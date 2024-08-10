@@ -172,10 +172,10 @@ namespace Colorblind {
             }
         }
 
-        [HarmonyPatch(typeof(AccessibilityMenu<PauseMenuAction>), "Setup")]
+        [HarmonyPatch(typeof(AccessibilityMenu<MenuAction>), "Setup")]
         class AddMenuToPauseMenu {
 
-            public static bool Prefix(AccessibilityMenu<PauseMenuAction> __instance) {
+            public static bool Prefix(AccessibilityMenu<MenuAction> __instance) {
                 MethodInfo addSubmenu = __instance.GetType().GetMethod("AddSubmenuButton", BindingFlags.NonPublic | BindingFlags.Instance);
                 addSubmenu.Invoke(__instance, new object[] { ColorblindMod.MOD_NAME, typeof(MainColorblindMenu), false });
                 return true;

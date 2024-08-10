@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Colorblind.Menus {
 
-    public class MainColorblindMenu : Menu<PauseMenuAction> {
+    public class MainColorblindMenu : Menu<MenuAction> {
 
         public MainColorblindMenu(Transform container, ModuleList module_list) : base(container, module_list) { }
 

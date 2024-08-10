@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Colorblind.Menus {
 
-    public class DishesMenu : Menu<PauseMenuAction> {
+    public class DishesMenu : Menu<MenuAction> {
 
         private static readonly List<bool> boolValues = new List<bool> { false, true };
         private static readonly List<string> boolLabels = new List<string> { "Normal Game Labels (if present)", "On" };
