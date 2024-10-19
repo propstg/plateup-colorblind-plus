@@ -146,12 +146,14 @@ namespace Colorblind {
                     }
 
                     TextMeshPro textMeshPro = getTextMeshProFromClonedObject(colourBlindChild);
-                    textMeshPro.fontSize = fontSize;
-                    textMeshPro.fontSizeMax = fontSize;
-                    textMeshPro.outlineWidth = outlineWidth;
-                    textMeshPro.fontStyle = fontStyle;
-                    textMeshPro.outlineColor = outlineColor;
-                    textMeshPro.color = color;
+                    if (textMeshPro != null) {
+                        textMeshPro.fontSize = fontSize;
+                        textMeshPro.fontSizeMax = fontSize;
+                        textMeshPro.outlineWidth = outlineWidth;
+                        textMeshPro.fontStyle = fontStyle;
+                        textMeshPro.outlineColor = outlineColor;
+                        textMeshPro.color = color;
+                    }
                 }
             }
         }
