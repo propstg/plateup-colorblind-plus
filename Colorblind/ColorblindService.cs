@@ -52,6 +52,10 @@ namespace Colorblind {
                 return;
             }
 
+            setupColorblindFeatureForItems(itemIds, labels);
+        }
+
+        public void setupColorblindFeatureForItems(List<int> itemIds, ItemLabel[] labels) {
             itemIds.Select(itemId => new ItemLabelGroup {
                 itemId = itemId,
                 itemLabels = labels,
@@ -64,6 +68,10 @@ namespace Colorblind {
                 return;
             }
 
+            addSingleItemLabels(labels);
+        }
+
+        public void addSingleItemLabels(Dictionary<int, VariableLabel> labels) {
             foreach (KeyValuePair<int, VariableLabel> entry in labels) {
                 addSingleItemLabels(new ItemLabel[] {
                     new ItemLabel { itemId = entry.Key, label = entry.Value.ToString() }

@@ -6,7 +6,7 @@ namespace Colorblind.Dishes {
 
     public class CakeService : DishService {
 
-        protected override Pref requiredPref => ColorblindPreferences.ShowSteakLabels;
+        protected override Pref requiredPref => ColorblindPreferences.ShowCakeLabels;
 
 
         protected override void doActualSetup(ColorblindService service) {

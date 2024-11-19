@@ -8,8 +8,9 @@ using Kitchen;
 using Kitchen.Modules;
 using KitchenData;
 using KitchenMods;
-using System.Collections.Generic;
+using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -33,16 +34,12 @@ namespace Colorblind {
                 ColorblindPreferences.registerPreferences();
                 service = new ColorblindService(GameData.Main);
                 setupConsentElementUpdateTicksOverridePatch();
-                addLabelsToStirFry();
-                addLabelsToTurkey();
-                addLabelsToBurgers();
-                addLabelsToPizza();
-                addLabelsToSalad();
-                addLabelsToSteak();
-                addLabelsToDumplings();
-                addLabelsToBreakfast();
-                new FishService().setupLabels(service);
-                new CakeService().setupLabels(service);
+
+                Assembly.GetExecutingAssembly().GetTypes()
+                    .Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(DishService))).ToList()
+                    .Select(Activator.CreateInstance).Cast<DishService>().ToList()
+                    .ForEach(t => t.setupLabels(service));
+
                 makeIceCreamOrderingConsistentWithAppliance();
                 service.addSingleItemLabels(SingleItems.SINGLE_ITEM_LABELS, ColorblindPreferences.ShowStandaloneLabels);
                 service.updateLabelStyles();
@@ -73,78 +70,6 @@ namespace Colorblind {
         private void setupConsentElementUpdateTicksOverridePatch() {
             ConsentElement_UpdateTicks_Patch.overriddenFontAsset = service.getFontFromTextMeshPro();
             EndPracticeView_OnUpdate_Patch.overriddenFontAsset = service.getFontFromTextMeshPro();
-        }
-
-        private void addLabelsToStirFry() {
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.StirFryRaw, ItemReferences.StirFryPlated, ItemReferences.StirFryCooked },
-                ColourBlindLabelCreator.createStirFryLabels(),
-                ColorblindPreferences.ShowStirFryLabels);
-        }
-
-        private void addLabelsToTurkey() {
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.TurkeyPlated },
-                ColourBlindLabelCreator.createTurkeyLabels(),
-                ColorblindPreferences.ShowTurkeyLabels);
-        }
-
-        private void addLabelsToBurgers() {
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.BurgerUnplated, ItemReferences.BurgerPlated },
-                ColourBlindLabelCreator.createBurgerLabels(),
-                ColorblindPreferences.ShowBurgerLabels);
-        }
-
-        private void addLabelsToPizza() {
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.PizzaRaw, ItemReferences.PizzaCooked, ItemReferences.PizzaPlated, ItemReferences.PizzaSlice },
-                ColourBlindLabelCreator.createPizzaLabels(),
-                ColorblindPreferences.ShowPizzaLabels);
-        }
-
-        private void addLabelsToSalad() {
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.SaladPlated },
-                ColourBlindLabelCreator.createSaladLabels(),
-                ColorblindPreferences.ShowSaladLabels);
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.SaladApplePlated },
-                ColourBlindLabelCreator.createAppleSaladLabels(),
-                ColorblindPreferences.ShowSaladLabels);
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.SaladPotatoPlated },
-                ColourBlindLabelCreator.createPotatoSaladLabels(),
-                ColorblindPreferences.ShowSaladLabels);
-        }
-
-        private void addLabelsToSteak() {
-            clearExistingSteakLabels();
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.SteakPlated }, ColourBlindLabelCreator.createSteakLabels(), ColorblindPreferences.ShowSteakLabels);
-            service.addSingleItemLabels(SingleItems.STEAK_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowSteakLabels);
-        }
-
-        private void clearExistingSteakLabels() {
-            if (!ColorblindPreferences.isOn(ColorblindPreferences.ShowSteakLabels)) {
-                return;
-            }
-
-            new List<int> { ItemReferences.SteakPlated,
-                ItemReferences.SteakRare,ItemReferences.SteakMedium,ItemReferences.SteakWelldone,
-                ItemReferences.BonedSteakRare,ItemReferences.BonedSteakMedium,ItemReferences.BonedSteakWelldone,
-                ItemReferences.ThickSteakRare,ItemReferences.ThickSteakMedium,ItemReferences.ThickSteakWelldone,
-                ItemReferences.ThinSteakRare,ItemReferences.ThinSteakMedium,ItemReferences.ThinSteakWelldone
-            }.ForEach(service.setTextToBlankForAllColourBlindChildrenForItem);
-        }
-
-        private void addLabelsToDumplings() {
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.DumplingsRaw },
-                ColourBlindLabelCreator.createUncookedDumplingLabels(),
-                ColorblindPreferences.ShowDumplingLabels);
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.DumplingsPlated },
-                ColourBlindLabelCreator.createCookedDumplingsLabels(),
-                ColorblindPreferences.ShowDumplingLabels);
-            service.addSingleItemLabels(SingleItems.DUMPLING_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowDumplingLabels);
-        }
-
-        private void addLabelsToBreakfast() {
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.BreakfastPlated },
-                ColourBlindLabelCreator.createBreakfastLabels(),
-                ColorblindPreferences.ShowBreakfastLabels);
-            service.addSingleItemLabels(SingleItems.BREAKFAST_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowBreakfastLabels);
         }
 
         private void makeIceCreamOrderingConsistentWithAppliance() {

@@ -1,6 +1,5 @@
 ﻿using Colorblind.Settings;
 using Kitchen;
-using UniverseLib;
 
 namespace Colorblind.Dishes {
 
@@ -11,7 +10,7 @@ namespace Colorblind.Dishes {
         
         public void setupLabels(ColorblindService service) {
             if (!ColorblindPreferences.isOn(requiredPref)) {
-                ColorblindMod.Log($"Skipping registering {this.GetActualType()} because pref {requiredPref} is off");
+                ColorblindMod.Log($"Skipping registering {this.GetType()} because pref {requiredPref} is off");
                 return;
             }
 

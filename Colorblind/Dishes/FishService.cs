@@ -8,7 +8,7 @@ namespace Colorblind.Dishes {
 
     public class FishService : DishService {
 
-        protected override Pref requiredPref => ColorblindPreferences.ShowSteakLabels;
+        protected override Pref requiredPref => ColorblindPreferences.ShowAdditionalFishLabels;
 
 
         protected override void doActualSetup(ColorblindService service) {
@@ -16,11 +16,11 @@ namespace Colorblind.Dishes {
 
             new List<int> {ItemReferences.FishPinkFried, ItemReferences.FishPinkRaw}
                 .ForEach(service.setTextToBlankForAllColourBlindChildrenForItem);
-            service.addSingleItemLabels(SingleItems.FISH_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowSteakLabels);
+            service.addSingleItemLabels(SingleItems.FISH_SINGLE_ITEM_LABELS);
 
             // All the plated fish shared a prefab, so only one needs updated
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.FishBluePlated }, ColourBlindLabelCreator.createFishLabels(), ColorblindPreferences.ShowSteakLabels);
-            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.FishOysterPlated }, ColourBlindLabelCreator.createOysterLabels(), ColorblindPreferences.ShowSteakLabels);
+            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.FishBluePlated }, ColourBlindLabelCreator.createFishLabels());
+            service.setupColorblindFeatureForItems(new List<int> { ItemReferences.FishOysterPlated }, ColourBlindLabelCreator.createOysterLabels());
         }
 
         private void clearExistingFishLabels(ColorblindService service) {
