@@ -99,11 +99,15 @@ namespace Colorblind {
         }
 
         public void setTextToBlankForAllColourBlindChildrenForItem(int itemId) {
+            setTextForAllColourBlindChildrenForItem(itemId, "");
+        }
+
+        public void setTextForAllColourBlindChildrenForItem(int itemId, string text) {
             Item item = gamedata.Get<Item>(itemId);
             List<GameObject> colourBlindChildren = findChildrenByName(item.Prefab, "Colour Blind");
             ColorblindMod.Log($"Found {colourBlindChildren.Count} Colour Blind children in {itemId}'s prefab");
             foreach (GameObject colourBlindChild in colourBlindChildren) {
-                getTextMeshProFromClonedObject(colourBlindChild).text = "";
+                getTextMeshProFromClonedObject(colourBlindChild).text = text;
             }
         }
 

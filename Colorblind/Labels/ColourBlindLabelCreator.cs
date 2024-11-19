@@ -90,6 +90,21 @@ namespace Colorblind.Labels {
             };
         }
 
+        public static ItemLabel[] createFishLabels() {
+            return new ItemLabel[] {
+                createLabel(ItemReferences.FishPinkFried, BaseLabels.FishPink),
+                createLabel(ItemReferences.FishBlueFried, BaseLabels.FishBlue),
+                createLabel(ItemReferences.FishSpinyCooked, BaseLabels.FishSpiny),
+                createLabel(ItemReferences.FishFilletCooked, BaseLabels.FishFillet),
+            };
+        }
+
+        public static ItemLabel[] createOysterLabels() {
+            return new ItemLabel[] {
+                createLabel(ItemReferences.FishOysterShucked, BaseLabels.FishOyster),
+            };
+        }
+
         public static ItemLabel[] createSteakLabels() {
             return new ItemLabel[] {
                 createLabel(ItemReferences.SteakRare, BaseLabels.SteakRegularRare),

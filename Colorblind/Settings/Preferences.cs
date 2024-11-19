@@ -18,6 +18,7 @@ namespace Colorblind.Settings {
         public static readonly Pref ShowDumplingLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowDumplingLabels));
         public static readonly Pref ShowBreakfastLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowBreakfastLabels));
         public static readonly Pref ShowAdditionalFishLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowAdditionalFishLabels));
+        public static readonly Pref ShowCakeLabels = new Pref(ColorblindMod.MOD_ID, nameof(ShowCakeLabels));
         public static readonly Pref ReorderIceCreamLabels = new Pref(ColorblindMod.MOD_ID, nameof(ReorderIceCreamLabels));
         public static readonly Pref IceCreamLabelOrdering = new Pref(ColorblindMod.MOD_ID, nameof(IceCreamLabelOrdering));
 
@@ -44,6 +45,7 @@ namespace Colorblind.Settings {
             addBoolPreference(ShowBreakfastLabels);
             addBoolPreference(ShowAdditionalFishLabels);
             addBoolPreference(ReorderIceCreamLabels);
+            addBoolPreference(ShowCakeLabels);
             Preferences.AddPreference<int>(new IntPreference(IceCreamLabelOrdering, (int)IceCreamLabels.NOT_SET));
             Preferences.AddPreference<int>(new IntPreference(DisplayStyle, (int)DisplayStyles.EXPANDED));
             Preferences.AddPreference<float>(new FloatPreference(FontSize, 2.0f));

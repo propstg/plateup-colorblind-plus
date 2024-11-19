@@ -49,6 +49,19 @@ namespace Colorblind.Labels {
             { ItemReferences.MeatBoned, BaseLabels.SteakBone },
         };
 
+        public static readonly Dictionary<int, VariableLabel> FISH_SINGLE_ITEM_LABELS = new Dictionary<int, VariableLabel>() {
+            { ItemReferences.FishPinkFried, BaseLabels.FishPink},
+            { ItemReferences.FishPinkRaw, BaseLabels.FishPink},
+            { ItemReferences.FishBlueFried, BaseLabels.FishBlue},
+            { ItemReferences.FishBlueRaw, BaseLabels.FishBlue},
+            { ItemReferences.FishSpinyRaw, BaseLabels.FishSpiny},
+            { ItemReferences.FishSpinyDeboned, BaseLabels.FishSpiny},
+            { ItemReferences.FishFilletRaw, BaseLabels.FishFillet},
+            { ItemReferences.FishFilletCooked, BaseLabels.FishFillet},
+            { ItemReferences.FishOysterShucked, BaseLabels.FishOyster},
+            { ItemReferences.FishOysterRaw, BaseLabels.FishOyster},
+        };
+
         public static readonly Dictionary<int, VariableLabel> DUMPLING_SINGLE_ITEM_LABELS = new Dictionary<int, VariableLabel>() {
             { ItemReferences.CookedDumplings, BaseLabels.Dumplings },
             { ItemReferences.PreparedDumplings, BaseLabels.Dumplings },
@@ -60,6 +73,12 @@ namespace Colorblind.Labels {
             { ItemReferences.Egg, BaseLabels.Egg },
             { ItemReferences.EggCooked, BaseLabels.Egg },
             { ItemReferences.EggCracked, BaseLabels.Egg },
+        };
+
+        public static readonly Dictionary<int, VariableLabel> CAKE_SINGLE_ITEM_LABELS = new Dictionary<int, VariableLabel>() {
+            { ItemReferences.LemonFlavour, BaseLabels.CakeFlavorLemon },
+            { ItemReferences.ChocolateFlavour, BaseLabels.CakeFlavorChocolate },
+            { ItemReferences.CoffeeFlavour, BaseLabels.CakeFlavorCoffee },
         };
     }
 }

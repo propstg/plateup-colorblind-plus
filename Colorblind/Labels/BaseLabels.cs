@@ -54,5 +54,14 @@
         public static readonly VariableLabel StuffingPlated = new VariableLabel("S");
         public static readonly VariableLabel Tomato = new VariableLabel("T");
         public static readonly VariableLabel Turkey = new VariableLabel("Tu");
+        public static readonly VariableLabel FishPink = new VariableLabel("R");
+        public static readonly VariableLabel FishBlue = new VariableLabel("B");
+        public static readonly VariableLabel FishSpiny = new VariableLabel("S");
+        public static readonly VariableLabel FishOyster = new VariableLabel("O");
+        public static readonly VariableLabel FishFillet = new VariableLabel("F");
+
+        public static readonly VariableLabel CakeFlavorLemon = new VariableLabel("Lemon");
+        public static readonly VariableLabel CakeFlavorChocolate = new VariableLabel("Choc");
+        public static readonly VariableLabel CakeFlavorCoffee = new VariableLabel("Coffee");
     }
 }

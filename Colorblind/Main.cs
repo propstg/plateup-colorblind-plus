@@ -1,4 +1,5 @@
 ﻿using Colorblind.Colorblind.References;
+using Colorblind.Dishes;
 using Colorblind.Labels;
 using Colorblind.Menus;
 using Colorblind.Settings;
@@ -40,6 +41,8 @@ namespace Colorblind {
                 addLabelsToSteak();
                 addLabelsToDumplings();
                 addLabelsToBreakfast();
+                new FishService().setupLabels(service);
+                new CakeService().setupLabels(service);
                 makeIceCreamOrderingConsistentWithAppliance();
                 service.addSingleItemLabels(SingleItems.SINGLE_ITEM_LABELS, ColorblindPreferences.ShowStandaloneLabels);
                 service.updateLabelStyles();
@@ -143,17 +146,6 @@ namespace Colorblind {
                 ColorblindPreferences.ShowBreakfastLabels);
             service.addSingleItemLabels(SingleItems.BREAKFAST_SINGLE_ITEM_LABELS, ColorblindPreferences.ShowBreakfastLabels);
         }
-
-        /*
-        private void addLabelsToFish() {
-            if (!ColorblindPreferences.isOn(ColorblindPreferences.ShowAdditionalFishLabels)) {
-                return;
-            }
-
-            service.setWeirdFishLabel(ItemReferences.FishSpinyPlated, "Spiny Fish - Cooked", "Sp");
-            service.setWeirdFishLabel(ItemReferences.FishSpinyRaw, "Spiny Fish - Cooked", "Sp");
-        }
-        */
 
         private void makeIceCreamOrderingConsistentWithAppliance() {
             switch (ColorblindPreferences.getIceCreamLabelStyle()) {
