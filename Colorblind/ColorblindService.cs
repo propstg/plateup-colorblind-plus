@@ -46,15 +46,6 @@ namespace Colorblind {
             existingColourblindChild = item.Prefab.transform.Find("Colour Blind").gameObject;
         }
 
-        public void setupColorblindFeatureForItems(List<int> itemIds, ItemLabel[] labels, Pref requiredPreference) {
-            if (!ColorblindPreferences.isOn(requiredPreference)) {
-                ColorblindMod.Log($"{nameof(requiredPreference)} is off. Not adding labels.");
-                return;
-            }
-
-            setupColorblindFeatureForItems(itemIds, labels);
-        }
-
         public void setupColorblindFeatureForItems(List<int> itemIds, ItemLabel[] labels) {
             itemIds.Select(itemId => new ItemLabelGroup {
                 itemId = itemId,

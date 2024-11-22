@@ -18,7 +18,7 @@ namespace Colorblind.Dishes {
                 .ForEach(service.setTextToBlankForAllColourBlindChildrenForItem);
             service.addSingleItemLabels(SingleItems.FISH_SINGLE_ITEM_LABELS);
 
-            // All the plated fish shared a prefab, so only one needs updated
+            // All the plated fish (except oysters) share a prefab, so only one needs updated
             service.setupColorblindFeatureForItems(new List<int> { ItemReferences.FishBluePlated }, ColourBlindLabelCreator.createFishLabels());
             service.setupColorblindFeatureForItems(new List<int> { ItemReferences.FishOysterPlated }, ColourBlindLabelCreator.createOysterLabels());
         }
