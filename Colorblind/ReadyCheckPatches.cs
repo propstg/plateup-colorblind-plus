@@ -10,6 +10,7 @@ using UnityEngine;
 
 namespace Colorblind {
 
+    /*
     [HarmonyPatch(typeof(ConsentElement), "UpdateTicks")]
     class ConsentElement_UpdateTicks_Patch {
 
@@ -45,6 +46,7 @@ namespace Colorblind {
             ___ContinueTicks.font = overriddenFontAsset;
         }
     }
+    */
 
     class ReadyCheckNamesUtil {
 
