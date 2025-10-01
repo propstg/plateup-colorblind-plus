@@ -24,6 +24,7 @@ namespace Colorblind.Menus {
         public override void Setup(int _) {
             addFloat("Label Size", fontSizeValues, fontSizeLabels, ColorblindPreferences.FontSize);
             addBool("Invert Colors", ColorblindPreferences.FontInvertColors);
+            addBool("Alternate Colors", ColorblindPreferences.FontAlternateColors);
             addBool("Wide Shadow", ColorblindPreferences.FontWideShadow);
             addFloat("Vertical Offset", fontVerticalOffsetValues, fontVerticalOffsetLabels, ColorblindPreferences.FontVerticalOffset);
             addFloat("Customer Name Offset (when seated)", fontVerticalOffsetValues, fontVerticalOffsetLabels, ColorblindPreferences.CustomerNameVerticalOffset);

@@ -25,6 +25,7 @@ namespace Colorblind.Settings {
         public static readonly Pref DisplayStyle = new Pref(ColorblindMod.MOD_ID, nameof(DisplayStyle));
         public static readonly Pref FontSize = new Pref(ColorblindMod.MOD_ID, nameof(FontSize));
         public static readonly Pref FontInvertColors = new Pref(ColorblindMod.MOD_ID, nameof(FontInvertColors));
+        public static readonly Pref FontAlternateColors = new Pref(ColorblindMod.MOD_ID, nameof(FontAlternateColors));
         public static readonly Pref FontWideShadow = new Pref(ColorblindMod.MOD_ID, nameof(FontWideShadow));
         public static readonly Pref FontVerticalOffset = new Pref(ColorblindMod.MOD_ID, nameof(FontVerticalOffset));
         public static readonly Pref NamesInsteadOfChecks = new Pref(ColorblindMod.MOD_ID, nameof(NamesInsteadOfChecks));
@@ -50,6 +51,7 @@ namespace Colorblind.Settings {
             Preferences.AddPreference<int>(new IntPreference(DisplayStyle, (int)DisplayStyles.EXPANDED));
             Preferences.AddPreference<float>(new FloatPreference(FontSize, 2.0f));
             addBoolPreference(FontInvertColors);
+            addBoolPreference(FontAlternateColors, false);
             addBoolPreference(FontWideShadow);
             Preferences.AddPreference<float>(new FloatPreference(FontVerticalOffset, 0f));
             addBoolPreference(NamesInsteadOfChecks);
