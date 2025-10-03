@@ -118,8 +118,12 @@ namespace Colorblind {
         public void updateLabelStyles() {
             float fontSize = ColorblindPreferences.getFontSize();
             bool invertColors = ColorblindPreferences.isOn(ColorblindPreferences.FontInvertColors);
+            bool alternateColors = ColorblindPreferences.isOn(ColorblindPreferences.FontAlternateColors);
             bool wideShadow = ColorblindPreferences.isOn(ColorblindPreferences.FontWideShadow);
             float verticalOffset = ColorblindPreferences.getFontVerticalOffset();
+
+            ItemGroupView_PerformUpdate_Patch.enabled = alternateColors;
+            ItemGroupView_PerformUpdate_Patch.inverted = invertColors;
 
             float outlineWidth = wideShadow ? 0.2f : 0.107f;
             FontStyles fontStyle = wideShadow ? FontStyles.Bold : FontStyles.Normal;
@@ -182,6 +186,7 @@ namespace Colorblind {
             getTextMeshProFromClonedObject(gameObject).text = fishLabel;
         }
 
+        public TextMeshPro getTextMeshPro() => getTextMeshProFromClonedObject(existingColourblindChild);
         public TMP_FontAsset getFontFromTextMeshPro() => getTextMeshProFromClonedObject(existingColourblindChild).font;
 
         [System.Diagnostics.Conditional("DEBUG")]

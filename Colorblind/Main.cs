@@ -68,8 +68,7 @@ namespace Colorblind {
         }
 
         private void setupConsentElementUpdateTicksOverridePatch() {
-            //ConsentElement_UpdateTicks_Patch.overriddenFontAsset = service.getFontFromTextMeshPro();
-            //EndPracticeView_OnUpdate_Patch.overriddenFontAsset = service.getFontFromTextMeshPro();
+            //ConsentElementTick_Setup_Patch.textMeshPro = service.getTextMeshPro();
         }
 
         private void makeIceCreamOrderingConsistentWithAppliance() {

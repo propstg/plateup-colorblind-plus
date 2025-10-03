@@ -3,7 +3,6 @@ using HarmonyLib;
 using Kitchen;
 using Kitchen.Modules;
 using KitchenMods;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -11,50 +10,37 @@ using UnityEngine;
 namespace Colorblind {
 
     /*
-    [HarmonyPatch(typeof(ConsentElement), "UpdateTicks")]
-    class ConsentElement_UpdateTicks_Patch {
+    [HarmonyPatch(typeof(ConsentElementTick), "Setup")]
+    class ConsentElementTick_Setup_Patch {
 
-        public static TMP_FontAsset overriddenFontAsset;
+        public static TextMeshPro textMeshPro;
 
-        public static void Postfix(TextMeshPro ___Ticks, Dictionary<int, bool> ___Consents) {
-            if (ReadyCheckNamesUtil.shouldSkipPostfix) {
-                return;
+        public static void Postfix(ConsentElementTick __instance, SpriteRenderer ___Tick, int sides, bool ready) {
+            TextMeshPro tmp = Object.Instantiate<TextMeshPro>(textMeshPro, __instance.transform, true);
+            tmp.transform.position = __instance.transform.position;
+            tmp.gameObject.SetActive(ready);
+            tmp.fontSize = 16;
+            tmp.text = ReadyCheckNamesUtil.createPlayerNameString(sides);
+            ___Tick.gameObject.SetActive(false);
+            SetLayerRecursively(tmp.gameObject, LayerMask.NameToLayer("UI"));
+        }
+
+        static void SetLayerRecursively(GameObject obj, int layer) {
+            obj.layer = layer;
+            foreach (Transform child in obj.transform) {
+                SetLayerRecursively(child.gameObject, layer);
             }
-
-            List<string> names = new List<string>();
-            foreach (KeyValuePair<int, bool> consent in ___Consents) {
-                if (consent.Value) {
-                    names.Add(ReadyCheckNamesUtil.createPlayerNameString(consent.Key));
-                }
-            }
-            ___Ticks.text = string.Join(", ", names.ToArray());
-            ___Ticks.font = overriddenFontAsset;
         }
     }
 
-    [HarmonyPatch(typeof(EndPracticeView), "UpdateData")]
-    class EndPracticeView_OnUpdate_Patch {
-
-        public static TMP_FontAsset overriddenFontAsset;
-
-        public static void Postfix(TextMeshPro ___ContinueTicks, HashSet<int> ___Consents) {
-            if (ReadyCheckNamesUtil.shouldSkipPostfix) {
-                return;
-            }
-
-            ___ContinueTicks.text = string.Join(", ", ___Consents.Select(ReadyCheckNamesUtil.createPlayerNameString).ToArray());
-            ___ContinueTicks.font = overriddenFontAsset;
-        }
-    }
     */
-
     class ReadyCheckNamesUtil {
 
-        public static bool isReadyCheckNamesInstalled => ModPreload.Mods.Any(mod => mod.Name == "Ready Check Names");
+        public static bool isReadyCheckNamesInstalled => ModPreload.Mods.Any(mod => mod.Name == "Ready Check Names" || mod.Name == "2922176841");
         public static bool shouldSkipPostfix => isReadyCheckNamesInstalled || !ColorblindPreferences.isOn(ColorblindPreferences.NamesInsteadOfChecks);
 
         public static string createPlayerNameString(int playerId) {
-            var player = Players.Main.Get(playerId);
+            var player = Players.Main.All().Where(p => p.Index == playerId).FirstOrDefault();
             string color = ColorUtility.ToHtmlStringRGB(player.Profile.Colour);
             return $"<color=#{color}>{getName(player)}</color>";
         }
